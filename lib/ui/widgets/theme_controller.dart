@@ -15,4 +15,12 @@ class ThemeController extends ChangeNotifier {
   ThemeMode getTheme() {
     return _themeMode;
   }
+
+  bool isThemeLight() {
+    return _themeMode == ThemeMode.light;
+  }
+
+  bool isThemeDark() {
+    return !isThemeLight();
+  }
 }

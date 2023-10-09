@@ -18,16 +18,16 @@ class TopBar extends StatefulWidget {
 const double _height = 40.0;
 
 class _TopBar extends State<TopBar> {
-  late Color _fandomBackgroundColor;
-  late Color _fandomTextColor;
-
-  bool _isThemeLight() {
-    return Theme.of(context).brightness == Brightness.light;
+  @override
+  void initState() {
+    super.initState();
   }
 
   Widget _sliverBar() {
     return SliverAppBar(
-      backgroundColor: _fandomBackgroundColor,
+      backgroundColor: widget.themeController.isThemeLight()
+          ? const Color(0XFFFFC500)
+          : const Color(0XFF520044),
       pinned: true,
       toolbarHeight: _height,
       expandedHeight: _height * 2,
@@ -38,7 +38,9 @@ class _TopBar extends State<TopBar> {
       title: Text(
         "Fandom",
         style: TextStyle(
-            color: _fandomTextColor,
+            color: widget.themeController.isThemeLight()
+                ? const Color(0XFF520044)
+                : const Color(0XFFFFC500),
             fontFamily: GoogleFonts.russoOne().fontFamily),
       ),
       actions: [
@@ -48,7 +50,9 @@ class _TopBar extends State<TopBar> {
             icon: Icon(
               Icons.search_outlined,
               size: 22,
-              color: _fandomTextColor,
+              color: widget.themeController.isThemeLight()
+                  ? const Color(0XFF520044)
+                  : const Color(0XFFFFC500),
             ),
             onPressed: () {}),
         IconButton(
@@ -57,7 +61,9 @@ class _TopBar extends State<TopBar> {
             icon: Icon(
               Icons.notifications_outlined,
               size: 22,
-              color: _fandomTextColor,
+              color: widget.themeController.isThemeLight()
+                  ? const Color(0XFF520044)
+                  : const Color(0XFFFFC500),
             ),
             onPressed: () {}),
         IconButton(
@@ -65,7 +71,9 @@ class _TopBar extends State<TopBar> {
           padding: EdgeInsets.zero,
           icon: CircleAvatar(
             radius: 10,
-            backgroundColor: _fandomTextColor,
+            backgroundColor: widget.themeController.isThemeLight()
+                ? const Color(0XFF520044)
+                : const Color(0XFFFFC500),
             child: Padding(
               padding: const EdgeInsets.all(2),
               child: ClipOval(
@@ -104,6 +112,17 @@ class _TopBar extends State<TopBar> {
                 size: 18,
               ),
             ),
+            dropdownStyleData: DropdownStyleData(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Theme.of(context).colorScheme.primaryContainer,
+              ),
+            ),
+            menuItemStyleData: const MenuItemStyleData(
+                height: 35,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0)),
             items: [
               DropdownMenuItem(
                 value: "home",
@@ -131,9 +150,9 @@ class _TopBar extends State<TopBar> {
                 child: Row(
                   children: [
                     Icon(
-                      _isThemeLight()
-                          ? Icons.light_mode_outlined
-                          : Icons.dark_mode_outlined,
+                      widget.themeController.isThemeLight()
+                          ? Icons.dark_mode_outlined
+                          : Icons.light_mode_outlined,
                       size: 16,
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
@@ -141,7 +160,7 @@ class _TopBar extends State<TopBar> {
                       width: 10,
                     ),
                     Text(
-                      "${_isThemeLight() ? "Light" : "Dark"} Theme",
+                      "${widget.themeController.isThemeLight() ? "Dark" : "Light"} Theme",
                       style: TextStyle(
                           fontSize: 14,
                           color:
@@ -151,22 +170,10 @@ class _TopBar extends State<TopBar> {
                 ),
               ),
             ],
-            dropdownStyleData: DropdownStyleData(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-            ),
-            menuItemStyleData: const MenuItemStyleData(
-                height: 35,
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0)),
             onChanged: (value) {
               if (value == "theme") {
-                setState(() {
-                  widget.themeController.switchTheme();
-                });
+                widget.themeController.switchTheme();
+                setState(() {});
               } else if (value == "home") {}
             },
           ),
@@ -177,11 +184,6 @@ class _TopBar extends State<TopBar> {
 
   @override
   Widget build(BuildContext context) {
-    _fandomBackgroundColor =
-        _isThemeLight() ? const Color(0XFFFFC500) : const Color(0XFF520044);
-    _fandomTextColor =
-        _isThemeLight() ? const Color(0XFF520044) : const Color(0XFFFFC500);
-
     return _sliverBar();
   }
 }
