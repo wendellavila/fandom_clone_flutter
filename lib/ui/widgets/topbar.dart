@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
+import 'package:fandom_clone/ui/widgets/theme_controller.dart';
+
 class TopBar extends StatefulWidget {
-  const TopBar({this.title = "Wiki Name", super.key});
+  const TopBar(
+      {required this.themeController, this.title = "Wiki Name", super.key});
 
   final String title;
+  final ThemeController themeController;
 
   @override
   State<TopBar> createState() => _TopBar();
@@ -101,18 +105,24 @@ class _TopBar extends State<TopBar> {
               ),
             ),
             items: [
-              const DropdownMenuItem(
+              DropdownMenuItem(
                 value: "home",
                 child: Row(
                   children: [
                     Icon(
                       Icons.home_outlined,
                       size: 16,
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
-                    Text("Main Page", style: TextStyle(fontSize: 14))
+                    Text("Main Page",
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer))
                   ],
                 ),
               ),
@@ -131,7 +141,7 @@ class _TopBar extends State<TopBar> {
                       width: 10,
                     ),
                     Text(
-                      _isThemeLight() ? "Light Theme" : "Dark Theme",
+                      "${_isThemeLight() ? "Light" : "Dark"} Theme",
                       style: TextStyle(
                           fontSize: 14,
                           color:
@@ -151,9 +161,13 @@ class _TopBar extends State<TopBar> {
             ),
             menuItemStyleData: const MenuItemStyleData(
                 height: 35,
-                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0)),
             onChanged: (value) {
-              print(value);
+              if (value == "theme") {
+                setState(() {
+                  widget.themeController.switchTheme();
+                });
+              } else if (value == "home") {}
             },
           ),
         ),

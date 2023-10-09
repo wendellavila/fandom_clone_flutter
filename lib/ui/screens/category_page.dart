@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:fandom_clone/ui/widgets/topbar.dart';
+import 'package:fandom_clone/ui/widgets/theme_controller.dart';
 
 class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key});
+  final ThemeController themeController;
+
+  const CategoryPage({required this.themeController, super.key});
 
   @override
   State<CategoryPage> createState() => _CategoryPage();
@@ -19,7 +23,7 @@ class _CategoryPage extends State<CategoryPage> {
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
-          const TopBar(),
+          TopBar(themeController: widget.themeController),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
