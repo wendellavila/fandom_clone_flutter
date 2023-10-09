@@ -22,6 +22,11 @@ class MyApp extends StatelessWidget {
       builder: (context, themeController, _) => MaterialApp(
         title: 'FANDOM Clone',
         theme: ThemeData(
+            iconTheme: const IconThemeData(color: Color(0XFF3A3A3A)),
+            textTheme: const TextTheme(
+                bodyLarge: TextStyle(color: Color(0XFF3A3A3A)),
+                bodyMedium: TextStyle(color: Color(0XFF3A3A3A)),
+                bodySmall: TextStyle(color: Color(0XFF3A3A3A))),
             appBarTheme: const AppBarTheme(color: Color(0XFF001225)),
             useMaterial3: false,
             fontFamily: GoogleFonts.rubik().fontFamily,
@@ -35,6 +40,11 @@ class MyApp extends StatelessWidget {
                 tertiary: const Color(0XFF037ABF)),
             scaffoldBackgroundColor: Colors.white),
         darkTheme: ThemeData(
+            iconTheme: const IconThemeData(color: Color(0XFFE6E6E6)),
+            textTheme: const TextTheme(
+                bodyLarge: TextStyle(color: Color(0XFFE6E6E6)),
+                bodyMedium: TextStyle(color: Color(0XFFE6E6E6)),
+                bodySmall: TextStyle(color: Color(0XFFE6E6E6))),
             appBarTheme: const AppBarTheme(color: Color(0XFF037ABF)),
             useMaterial3: false,
             fontFamily: GoogleFonts.rubik().fontFamily,
@@ -44,6 +54,7 @@ class MyApp extends StatelessWidget {
                 onPrimary: Colors.white,
                 onPrimaryContainer: Colors.white,
                 secondary: const Color(0XFFB84D68),
+                onSecondary: const Color(0XFFE6E6E6),
                 tertiary: const Color(0XFF40A4FF)),
             scaffoldBackgroundColor: const Color(0XFF001225)),
         themeMode: themeController.getTheme(),

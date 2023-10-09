@@ -99,7 +99,7 @@ class _TopBar extends State<TopBar> {
         IconButton(
             visualDensity: VisualDensity.compact,
             icon: const Icon(
-              Icons.chat_bubble_outline,
+              Icons.forum_outlined,
               size: 18,
             ),
             onPressed: () {}),
@@ -108,8 +108,8 @@ class _TopBar extends State<TopBar> {
             customButton: const Padding(
               padding: EdgeInsets.all(8.0),
               child: Icon(
-                Icons.menu_outlined,
-                size: 18,
+                Icons.notes_outlined,
+                size: 21,
               ),
             ),
             dropdownStyleData: DropdownStyleData(
