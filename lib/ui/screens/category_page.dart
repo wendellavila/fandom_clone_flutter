@@ -17,7 +17,7 @@ class _CategoryPage extends State<CategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         slivers: [
           const TopBar(),
           SliverList(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class TopBar extends StatefulWidget {
   const TopBar({this.title = "Wiki Name", super.key});
@@ -79,7 +80,8 @@ class _TopBar extends State<TopBar> {
       toolbarHeight: _height,
       title: Text(
         widget.title.toUpperCase(),
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        style: const TextStyle(
+            fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 0.5),
       ),
       actions: [
         IconButton(
@@ -89,13 +91,72 @@ class _TopBar extends State<TopBar> {
               size: 18,
             ),
             onPressed: () {}),
-        IconButton(
-            visualDensity: VisualDensity.compact,
-            icon: const Icon(
-              Icons.menu_outlined,
-              size: 18,
+        DropdownButtonHideUnderline(
+          child: DropdownButton2(
+            customButton: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.menu_outlined,
+                size: 18,
+              ),
             ),
-            onPressed: () {})
+            items: [
+              const DropdownMenuItem(
+                value: "home",
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.home_outlined,
+                      size: 16,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text("Main Page", style: TextStyle(fontSize: 14))
+                  ],
+                ),
+              ),
+              DropdownMenuItem(
+                value: "theme",
+                child: Row(
+                  children: [
+                    Icon(
+                      _isThemeLight()
+                          ? Icons.light_mode_outlined
+                          : Icons.dark_mode_outlined,
+                      size: 16,
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      _isThemeLight() ? "Light Theme" : "Dark Theme",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer),
+                    )
+                  ],
+                ),
+              ),
+            ],
+            dropdownStyleData: DropdownStyleData(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Theme.of(context).colorScheme.primaryContainer,
+              ),
+            ),
+            menuItemStyleData: const MenuItemStyleData(
+                height: 35,
+                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
+            onChanged: (value) {
+              print(value);
+            },
+          ),
+        ),
       ],
     );
   }
