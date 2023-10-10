@@ -25,6 +25,7 @@ class _TopBar extends State<TopBar> {
 
   Widget _sliverBar() {
     return SliverAppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: widget.themeController.isThemeLight()
           ? const Color(0XFFFFC500)
           : const Color(0XFF520044),
@@ -89,6 +90,7 @@ class _TopBar extends State<TopBar> {
 
   Widget _bottomBar() {
     return AppBar(
+      automaticallyImplyLeading: false,
       toolbarHeight: _height,
       title: Text(
         widget.title.toUpperCase(),

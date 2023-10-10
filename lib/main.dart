@@ -38,7 +38,9 @@ class MyApp extends StatelessWidget {
                 secondary: const Color(0XFFE77484),
                 onSecondary: const Color(0XFF3A3A3A),
                 tertiary: const Color(0XFF037ABF)),
-            scaffoldBackgroundColor: Colors.white),
+            scaffoldBackgroundColor: Colors.white,
+            listTileTheme: const ListTileThemeData(
+                iconColor: Color(0XFF3A3A3A), textColor: Color(0XFF3A3A3A))),
         darkTheme: ThemeData(
             iconTheme: const IconThemeData(color: Color(0XFFE6E6E6)),
             textTheme: const TextTheme(
@@ -56,9 +58,12 @@ class MyApp extends StatelessWidget {
                 secondary: const Color(0XFFB84D68),
                 onSecondary: const Color(0XFFE6E6E6),
                 tertiary: const Color(0XFF40A4FF)),
-            scaffoldBackgroundColor: const Color(0XFF001225)),
+            scaffoldBackgroundColor: const Color(0XFF001225),
+            listTileTheme: const ListTileThemeData(
+                iconColor: Colors.white, textColor: Colors.white)),
         themeMode: themeController.getTheme(),
-        home: CategoryPage(themeController: themeController),
+        home: CategoryPage(
+            title: "Category:Browse", themeController: themeController),
       ),
     );
   }
