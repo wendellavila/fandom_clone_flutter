@@ -14,6 +14,26 @@ class ArticlePage extends StatefulWidget {
 }
 
 class _ArticlePage extends State<ArticlePage> {
+  final Map<String, dynamic> pageData = {
+    "infobox": {
+      "image": "assets/img/user.png",
+      "caption": "Caption",
+      "fields": {
+        "Label 1": "Content 1",
+        "Label 2": "Content 2",
+        "Label 3": "Content 3",
+        "Label 4": "Content 4",
+      },
+    },
+    "description": "description",
+    "sections": {
+      "Header 1": "Content 1",
+      "Header 2": "Content 2",
+      "Header 3": "Content 3",
+      "Header 4": "Content 4",
+    },
+  };
+
   Widget _pageHeader() {
     return SliverToBoxAdapter(
       child: Padding(
@@ -62,7 +82,7 @@ class _ArticlePage extends State<ArticlePage> {
                       size: 18,
                     )),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -74,7 +94,103 @@ class _ArticlePage extends State<ArticlePage> {
         child: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
-              children: [Container()],
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                    image: DecorationImage(
+                      colorFilter: const ColorFilter.linearToSrgbGamma(),
+                      fit: BoxFit.cover,
+                      image: AssetImage(pageData['infobox']['image']),
+                    ),
+                  ),
+                  height: 300,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                Container(
+                  constraints: const BoxConstraints(minHeight: 40),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                          child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 16),
+                        child: Text(pageData['infobox']['caption']),
+                      ))
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.secondary)),
+                  child: Container(
+                    constraints: const BoxConstraints(minHeight: 40),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.secondary),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                            child: Text(
+                          "INFORMATION",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.secondary)),
+                  child: Column(
+                    children: [
+                      for (final entry in pageData['infobox']['fields'].entries)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 12),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  entry.key.toUpperCase(),
+                                  style: const TextStyle(
+                                    letterSpacing: -0.2,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Text(entry.value,
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w200,
+                                    )),
+                              )
+                            ],
+                          ),
+                        )
+                    ],
+                  ),
+                ),
+                Text("Header"),
+              ],
             )));
   }
 
