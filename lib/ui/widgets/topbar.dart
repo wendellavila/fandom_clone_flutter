@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:provider/provider.dart';
 
-import 'package:fandom_clone/ui/widgets/theme_controller.dart';
+import 'package:fandom_clone/services/theme_controller.dart';
 
 class TopNavigationBar extends StatefulWidget {
   const TopNavigationBar({this.title = "Wiki Name", super.key});
@@ -24,8 +24,15 @@ class _TopNavigationBar extends State<TopNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeController themeController = Provider.of<ThemeController>(context, listen: true);
-    return SliverBar(parentWidget: widget, context: context, themeController: themeController);
+    final ThemeController themeController = Provider.of<ThemeController>(
+      context,
+      listen: true,
+    );
+    return SliverBar(
+      parentWidget: widget,
+      context: context,
+      themeController: themeController,
+    );
   }
 }
 

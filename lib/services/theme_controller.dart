@@ -12,9 +12,7 @@ class ThemeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  ThemeMode getTheme() {
-    return _themeMode;
-  }
+  ThemeMode get theme => _themeMode;
 
   bool isThemeLight() {
     return _themeMode == ThemeMode.light;

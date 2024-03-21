@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:fandom_clone/ui/widgets/topbar.dart';
-import 'package:fandom_clone/ui/widgets/theme_controller.dart';
 
 class ArticlePage extends StatefulWidget {
-  final ThemeController themeController;
   final String title;
 
-  const ArticlePage({this.title = "Category Name", required this.themeController, super.key});
+  const ArticlePage({this.title = "Category Name", super.key});
   @override
   State<ArticlePage> createState() => _ArticlePage();
 }

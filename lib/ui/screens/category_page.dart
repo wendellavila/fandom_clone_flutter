@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fandom_clone/ui/widgets/topbar.dart';
-import 'package:fandom_clone/ui/widgets/theme_controller.dart';
+import 'package:fandom_clone/services/theme_controller.dart';
 import 'package:fandom_clone/ui/screens/article_page.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -72,19 +72,21 @@ class _CategoryPage extends State<CategoryPage> {
 }
 
 class CategoryList extends StatelessWidget {
-  const CategoryList(
-      {super.key,
-      required List<String> categoryNames,
-      required List<Map> categoriesByInitial,
-      required this.parentWidget,
-      required this.setCategoryExpandedCallback})
-      : _categoryNames = categoryNames,
-        _categoriesByInitial = categoriesByInitial;
+  const CategoryList({
+    super.key,
+    required this.categoryNames,
+    required this.categoriesByInitial,
+    required this.parentWidget,
+    required this.setCategoryExpandedCallback,
+  });
 
-  final List<String> _categoryNames;
-  final List<Map> _categoriesByInitial;
+  final List<String> categoryNames;
+  final List<Map> categoriesByInitial;
   final CategoryPage parentWidget;
-  final Function({required int index, required bool isExpanded}) setCategoryExpandedCallback;
+  final Function({
+    required int index,
+    required bool isExpanded,
+  }) setCategoryExpandedCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +96,7 @@ class CategoryList extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
-              "All items (${_categoryNames.length})",
+              "All items (${categoryNames.length})",
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
@@ -111,11 +113,11 @@ class CategoryList extends StatelessWidget {
                 children: [
                   ExpansionPanel(
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    isExpanded: _categoriesByInitial[panelIndex]['isExpanded'],
+                    isExpanded: categoriesByInitial[panelIndex]['isExpanded'],
                     headerBuilder: (context, isExpanded) {
                       return ListTile(
                         style: ListTileStyle.list,
-                        title: Text(_categoriesByInitial[panelIndex]['title']),
+                        title: Text(categoriesByInitial[panelIndex]['title']),
                       );
                     },
                     body: Padding(
@@ -124,7 +126,7 @@ class CategoryList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          for (final pageName in _categoriesByInitial[panelIndex]['pages'])
+                          for (final pageName in categoriesByInitial[panelIndex]['pages'])
                             Align(
                               alignment: Alignment.topLeft,
                               child: Padding(
@@ -148,7 +150,7 @@ class CategoryList extends StatelessWidget {
                                       onPressed: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => ArticlePage(themeController: parentWidget.themeController, title: pageName),
+                                          builder: (context) => ArticlePage(title: pageName),
                                         ),
                                       ),
                                       child: Text(
@@ -171,7 +173,7 @@ class CategoryList extends StatelessWidget {
                 ],
               );
             },
-            childCount: _categoriesByInitial.length,
+            childCount: categoriesByInitial.length,
           ),
         ),
       ],
