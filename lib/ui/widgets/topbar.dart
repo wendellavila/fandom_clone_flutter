@@ -1,48 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:provider/provider.dart';
 
 import 'package:fandom_clone/ui/widgets/theme_controller.dart';
 
-class TopBar extends StatefulWidget {
-  const TopBar(
-      {required this.themeController, this.title = "Wiki Name", super.key});
+class TopNavigationBar extends StatefulWidget {
+  const TopNavigationBar({this.title = "Wiki Name", super.key});
 
   final String title;
-  final ThemeController themeController;
 
   @override
-  State<TopBar> createState() => _TopBar();
+  State<TopNavigationBar> createState() => _TopNavigationBar();
 }
 
 const double _height = 40.0;
 
-class _TopBar extends State<TopBar> {
+class _TopNavigationBar extends State<TopNavigationBar> {
   @override
   void initState() {
     super.initState();
   }
 
-  Widget _sliverBar() {
+  @override
+  Widget build(BuildContext context) {
+    final ThemeController themeController = Provider.of<ThemeController>(context, listen: true);
+    return SliverBar(parentWidget: widget, context: context, themeController: themeController);
+  }
+}
+
+class SliverBar extends StatelessWidget {
+  const SliverBar({
+    super.key,
+    required this.parentWidget,
+    required this.context,
+    required this.themeController,
+  });
+
+  final TopNavigationBar parentWidget;
+  final BuildContext context;
+  final ThemeController themeController;
+
+  @override
+  Widget build(BuildContext context) {
     return SliverAppBar(
       automaticallyImplyLeading: false,
-      backgroundColor: widget.themeController.isThemeLight()
-          ? const Color(0XFFFFC500)
-          : const Color(0XFF520044),
+      backgroundColor: themeController.isThemeLight() ? const Color(0XFFFFC500) : const Color(0XFF520044),
       pinned: true,
       toolbarHeight: _height,
       expandedHeight: _height * 2,
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(0),
-        child: _bottomBar(),
+        child: BottomBar(parentWidget: parentWidget, context: context, themeController: themeController),
       ),
       title: Text(
         "Fandom",
         style: TextStyle(
-            color: widget.themeController.isThemeLight()
-                ? const Color(0XFF520044)
-                : const Color(0XFFFFC500),
-            fontFamily: GoogleFonts.russoOne().fontFamily),
+            color: themeController.isThemeLight() ? const Color(0XFF520044) : const Color(0XFFFFC500), fontFamily: GoogleFonts.russoOne().fontFamily),
       ),
       actions: [
         IconButton(
@@ -51,9 +65,7 @@ class _TopBar extends State<TopBar> {
             icon: Icon(
               Icons.search_outlined,
               size: 22,
-              color: widget.themeController.isThemeLight()
-                  ? const Color(0XFF520044)
-                  : const Color(0XFFFFC500),
+              color: themeController.isThemeLight() ? const Color(0XFF520044) : const Color(0XFFFFC500),
             ),
             onPressed: () {}),
         IconButton(
@@ -62,9 +74,7 @@ class _TopBar extends State<TopBar> {
             icon: Icon(
               Icons.notifications_outlined,
               size: 22,
-              color: widget.themeController.isThemeLight()
-                  ? const Color(0XFF520044)
-                  : const Color(0XFFFFC500),
+              color: themeController.isThemeLight() ? const Color(0XFF520044) : const Color(0XFFFFC500),
             ),
             onPressed: () {}),
         IconButton(
@@ -72,9 +82,7 @@ class _TopBar extends State<TopBar> {
           padding: EdgeInsets.zero,
           icon: CircleAvatar(
             radius: 10,
-            backgroundColor: widget.themeController.isThemeLight()
-                ? const Color(0XFF520044)
-                : const Color(0XFFFFC500),
+            backgroundColor: themeController.isThemeLight() ? const Color(0XFF520044) : const Color(0XFFFFC500),
             child: Padding(
               padding: const EdgeInsets.all(2),
               child: ClipOval(
@@ -87,15 +95,28 @@ class _TopBar extends State<TopBar> {
       ],
     );
   }
+}
 
-  Widget _bottomBar() {
+class BottomBar extends StatelessWidget {
+  const BottomBar({
+    super.key,
+    required this.parentWidget,
+    required this.context,
+    required this.themeController,
+  });
+
+  final TopNavigationBar parentWidget;
+  final BuildContext context;
+  final ThemeController themeController;
+
+  @override
+  Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
       toolbarHeight: _height,
       title: Text(
-        widget.title.toUpperCase(),
-        style: const TextStyle(
-            fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 0.5),
+        parentWidget.title.toUpperCase(),
+        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 0.5),
       ),
       actions: [
         IconButton(
@@ -122,9 +143,7 @@ class _TopBar extends State<TopBar> {
                 color: Theme.of(context).colorScheme.primaryContainer,
               ),
             ),
-            menuItemStyleData: const MenuItemStyleData(
-                height: 35,
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0)),
+            menuItemStyleData: const MenuItemStyleData(height: 35, padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0)),
             items: [
               DropdownMenuItem(
                 value: "home",
@@ -138,12 +157,7 @@ class _TopBar extends State<TopBar> {
                     const SizedBox(
                       width: 10,
                     ),
-                    Text("Main Page",
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer))
+                    Text("Main Page", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onPrimaryContainer))
                   ],
                 ),
               ),
@@ -152,9 +166,7 @@ class _TopBar extends State<TopBar> {
                 child: Row(
                   children: [
                     Icon(
-                      widget.themeController.isThemeLight()
-                          ? Icons.dark_mode_outlined
-                          : Icons.light_mode_outlined,
+                      themeController.isThemeLight() ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
                       size: 16,
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
@@ -162,30 +174,21 @@ class _TopBar extends State<TopBar> {
                       width: 10,
                     ),
                     Text(
-                      "${widget.themeController.isThemeLight() ? "Dark" : "Light"} Theme",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer),
+                      "${themeController.isThemeLight() ? "Dark" : "Light"} Theme",
+                      style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onPrimaryContainer),
                     )
                   ],
                 ),
               ),
             ],
-            onChanged: (value) {
-              if (value == "theme") {
-                widget.themeController.switchTheme();
-                setState(() {});
-              } else if (value == "home") {}
+            onChanged: (dropdownItemValue) {
+              if (dropdownItemValue == "theme") {
+                themeController.switchTheme();
+              } else if (dropdownItemValue == "home") {}
             },
           ),
         ),
       ],
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _sliverBar();
   }
 }
