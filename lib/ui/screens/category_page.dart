@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:fandom_clone/ui/widgets/topbar.dart';
-import 'package:fandom_clone/services/theme_controller.dart';
 import 'package:fandom_clone/ui/screens/article_page.dart';
 
 class CategoryPage extends StatefulWidget {
-  final ThemeController themeController;
   final String title;
 
-  const CategoryPage({this.title = "Category Name", required this.themeController, super.key});
+  const CategoryPage({this.title = "Category Name", super.key});
 
   @override
   State<CategoryPage> createState() => _CategoryPage();
