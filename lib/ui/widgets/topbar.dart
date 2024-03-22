@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fandom_clone/services/theme_notifier.dart';
+import 'package:fandom_clone/providers/theme_notifier.dart';
 
 const double _height = 40.0;
 
@@ -18,7 +18,7 @@ class TopNavigationBar extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) => SliverAppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: ref.read(themeNotifier).isThemeLight() ? const Color(0XFFFFC500) : const Color(0XFF520044),
+        backgroundColor: ref.read(themeNotifier).isThemeLight ? const Color(0XFFFFC500) : const Color(0XFF520044),
         pinned: true,
         toolbarHeight: _height,
         expandedHeight: _height * 2,
@@ -29,7 +29,7 @@ class TopNavigationBar extends StatelessWidget {
         title: Text(
           "Fandom",
           style: TextStyle(
-              color: ref.read(themeNotifier).isThemeLight() ? const Color(0XFF520044) : const Color(0XFFFFC500),
+              color: ref.read(themeNotifier).isThemeLight ? const Color(0XFF520044) : const Color(0XFFFFC500),
               fontFamily: GoogleFonts.russoOne().fontFamily),
         ),
         actions: [
@@ -39,7 +39,7 @@ class TopNavigationBar extends StatelessWidget {
               icon: Icon(
                 Icons.search_outlined,
                 size: 22,
-                color: ref.watch(themeNotifier).isThemeLight() ? const Color(0XFF520044) : const Color(0XFFFFC500),
+                color: ref.watch(themeNotifier).isThemeLight ? const Color(0XFF520044) : const Color(0XFFFFC500),
               ),
               onPressed: () {}),
           IconButton(
@@ -48,7 +48,7 @@ class TopNavigationBar extends StatelessWidget {
               icon: Icon(
                 Icons.notifications_outlined,
                 size: 22,
-                color: ref.watch(themeNotifier).isThemeLight() ? const Color(0XFF520044) : const Color(0XFFFFC500),
+                color: ref.watch(themeNotifier).isThemeLight ? const Color(0XFF520044) : const Color(0XFFFFC500),
               ),
               onPressed: () {}),
           IconButton(
@@ -56,7 +56,7 @@ class TopNavigationBar extends StatelessWidget {
             padding: EdgeInsets.zero,
             icon: CircleAvatar(
               radius: 10,
-              backgroundColor: ref.watch(themeNotifier).isThemeLight() ? const Color(0XFF520044) : const Color(0XFFFFC500),
+              backgroundColor: ref.watch(themeNotifier).isThemeLight ? const Color(0XFF520044) : const Color(0XFFFFC500),
               child: Padding(
                 padding: const EdgeInsets.all(2),
                 child: ClipOval(
@@ -153,7 +153,7 @@ class BottomBar extends StatelessWidget {
                   child: Row(
                     children: [
                       Icon(
-                        ref.watch(themeNotifier).isThemeLight() ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
+                        ref.watch(themeNotifier).isThemeLight ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
                         size: 16,
                         color: Theme.of(context).colorScheme.onPrimaryContainer,
                       ),
@@ -161,7 +161,7 @@ class BottomBar extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        "${ref.watch(themeNotifier).isThemeLight() ? "Dark" : "Light"} Theme",
+                        "${ref.watch(themeNotifier).isThemeLight ? "Dark" : "Light"} Theme",
                         style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onPrimaryContainer),
                       )
                     ],

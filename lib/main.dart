@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fandom_clone/ui/screens/category_page.dart';
-import 'package:fandom_clone/services/theme_notifier.dart';
+import 'package:fandom_clone/providers/theme_notifier.dart';
 
 void main() {
   runApp(
