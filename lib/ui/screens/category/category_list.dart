@@ -1,23 +1,25 @@
-import 'package:fandom_clone/ui/screens/article/article.dart';
-import 'package:fandom_clone/ui/screens/category/category.dart';
+import 'package:fandom_clone/ui/screens/article/article_screen.dart';
+import 'package:fandom_clone/ui/screens/category/category_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../model/namespace.dart';
 
 class CategoryList extends StatelessWidget {
   const CategoryList({
     super.key,
-    required this.categoryNames,
-    required this.categoriesByInitial,
+    required this.subsections,
     required this.parentWidget,
     required this.setCategoryExpandedCallback,
   });
 
-  final List<String> categoryNames;
-  final List<Map> categoriesByInitial;
+  final List<CategorySubsection> subsections;
   final CategoryPage parentWidget;
   final Function({
     required int index,
     required bool isExpanded,
   }) setCategoryExpandedCallback;
+
+  int get pagecount => subsections.length;
 
   @override
   Widget build(BuildContext context) {
@@ -27,84 +29,99 @@ class CategoryList extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
-              "All items (${categoryNames.length})",
+              "All items ($pagecount)",
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, panelIndex) {
-              return ExpansionPanelList(
-                expandedHeaderPadding: EdgeInsets.zero,
-                expandIconColor: Theme.of(context).colorScheme.onSecondary,
-                expansionCallback: (_, isExpanded) {
-                  setCategoryExpandedCallback(index: panelIndex, isExpanded: isExpanded);
-                },
-                children: [
-                  ExpansionPanel(
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    isExpanded: categoriesByInitial[panelIndex]['isExpanded'],
-                    headerBuilder: (context, isExpanded) {
-                      return ListTile(
-                        style: ListTileStyle.list,
-                        title: Text(categoriesByInitial[panelIndex]['title']),
-                      );
-                    },
-                    body: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          for (final pageName in categoriesByInitial[panelIndex]['pages'])
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.filter_none_outlined,
-                                      size: 18,
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    TextButton(
+        SliverPadding(
+          padding: const EdgeInsets.only(bottom: 10),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, panelIndex) {
+                return ExpansionPanelList(
+                  elevation: 0,
+                  expandedHeaderPadding: EdgeInsets.zero,
+                  expandIconColor: Theme.of(context).colorScheme.onSecondary,
+                  expansionCallback: (_, isExpanded) {
+                    setCategoryExpandedCallback(index: panelIndex, isExpanded: isExpanded);
+                  },
+                  children: [
+                    ExpansionPanel(
+                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                      isExpanded: subsections[panelIndex].isExpanded,
+                      canTapOnHeader: true,
+                      headerBuilder: (context, isExpanded) {
+                        return ListTile(
+                          style: ListTileStyle.list,
+                          title: Text(subsections[panelIndex].title),
+                        );
+                      },
+                      body: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: subsections[panelIndex]
+                              .pages
+                              .map(
+                                (page) => Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                    child: TextButton(
                                       style: TextButton.styleFrom(
-                                        padding: EdgeInsets.zero,
+                                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
                                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                         alignment: Alignment.centerLeft,
                                         minimumSize: Size.zero,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(Radius.zero),
+                                        ),
                                       ),
                                       onPressed: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => ArticlePage(title: pageName),
+                                          builder: (context) => page.namespace == Namespace.category
+                                              ? CategoryPage(title: page.pagename)
+                                              : ArticlePage(title: page.pagename),
                                         ),
                                       ),
-                                      child: Text(
-                                        pageName,
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Theme.of(context).colorScheme.onSecondary,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.filter_none_outlined,
+                                              size: 18,
+                                            ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            Text(
+                                              page.toString(),
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Theme.of(context).colorScheme.onSecondary,
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                        ],
+                              )
+                              .toList(),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
-            childCount: categoriesByInitial.length,
+                  ],
+                );
+              },
+              childCount: subsections.length,
+            ),
           ),
         ),
       ],

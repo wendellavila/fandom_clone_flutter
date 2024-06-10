@@ -1,4 +1,4 @@
-import 'package:fandom_clone/ui/screens/article/article.dart';
+import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:flutter/material.dart';
 
 class PageHeader extends StatelessWidget {

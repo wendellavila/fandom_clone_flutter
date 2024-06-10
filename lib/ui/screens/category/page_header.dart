@@ -1,4 +1,4 @@
-import 'package:fandom_clone/ui/screens/category/category.dart';
+import 'package:fandom_clone/ui/screens/category/category_screen.dart';
 import 'package:flutter/material.dart';
 
 class PageHeader extends StatelessWidget {
@@ -29,7 +29,7 @@ class PageHeader extends StatelessWidget {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(bottom: 5),
+              padding: EdgeInsets.only(bottom: 8),
               child: Text(
                 "Category Page",
                 style: TextStyle(
@@ -37,7 +37,9 @@ class PageHeader extends StatelessWidget {
                 ),
               ),
             ),
-            TextButton(
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: TextButton(
                 onPressed: () {},
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -53,26 +55,22 @@ class PageHeader extends StatelessWidget {
                     ),
                     Text(
                       "EDIT",
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.tertiary),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
                     ),
                   ],
-                )),
-            const Row(
-              children: [
-                Flexible(
-                    child: Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rhoncus tempus cursus. Vivamus ultricies mi a dapibus accumsan. Cras in placerat ante. Ut lectus mauris, vehicula vehicula dui in, semper malesuada est. Quisque vel vulputate quam.",
-                  textAlign: TextAlign.start,
-                )),
-              ],
+                ),
+              ),
             ),
             const Row(
               children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 16),
+                Flexible(
                   child: Text(
-                    "Trending pages",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rhoncus tempus cursus. Vivamus ultricies mi a dapibus accumsan. Cras in placerat ante. Ut lectus mauris, vehicula vehicula dui in, semper malesuada est. Quisque vel vulputate quam.",
+                    textAlign: TextAlign.start,
                   ),
                 ),
               ],

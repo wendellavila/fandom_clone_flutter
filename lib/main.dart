@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fandom_clone/ui/screens/category/category.dart';
+import 'package:fandom_clone/ui/screens/category/category_screen.dart';
 import 'package:fandom_clone/providers/theme_notifier.dart';
 
 void main() {
