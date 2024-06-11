@@ -1,5 +1,8 @@
+import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fandom_clone/ui/model/page_metadata.dart';
+
+import '../../model/namespace.dart';
 
 class TrendingPages extends StatelessWidget {
   const TrendingPages({
@@ -36,7 +39,16 @@ class TrendingPages extends StatelessWidget {
                 (page) => Padding(
                   padding: const EdgeInsets.all(10),
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      if (page.namespace == Namespace.main) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ArticlePage(title: page.pagename),
+                          ),
+                        );
+                      }
+                    },
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -47,7 +59,10 @@ class TrendingPages extends StatelessWidget {
                               return const LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.transparent, Color.fromARGB(120, 0, 0, 0)],
+                                colors: [
+                                  Colors.transparent,
+                                  Color.fromARGB(120, 0, 0, 0),
+                                ],
                               ).createShader(
                                 Rect.fromLTRB(0, 0, rect.width, rect.height),
                               );

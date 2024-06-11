@@ -85,11 +85,14 @@ class _CategoryPage extends State<CategoryPage> {
   List<PageMetadata> _getTopPages({required List<PageMetadata> pages}) {
     pages = pages
         .where((page) => page.namespace == Namespace.main)
-        .map((page) => PageMetadata(pagename: _stripNamespace(pagename: page.pagename), namespace: page.namespace))
+        .map((page) => PageMetadata(
+              pagename: _stripNamespace(pagename: page.pagename),
+              namespace: page.namespace,
+            ))
         .toList();
     pages.sort();
 
-    return pages.length > 6 ? pages.sublist(0, 7) : pages;
+    return pages.length > 6 ? pages.sublist(1, 7) : pages;
   }
 
   void _setCategoryExpanded({required int index, required bool isExpanded}) {
