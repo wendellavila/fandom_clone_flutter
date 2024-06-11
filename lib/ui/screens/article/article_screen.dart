@@ -7,8 +7,9 @@ import 'page_header.dart';
 
 class ArticlePage extends StatefulWidget {
   final String title;
+  final String wikiName;
 
-  const ArticlePage({this.title = "Category Name", super.key});
+  const ArticlePage({required this.title, required this.wikiName, super.key});
   @override
   State<ArticlePage> createState() => _ArticlePage();
 }

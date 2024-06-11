@@ -32,6 +32,7 @@ class _AppState extends ConsumerState<App> {
       themeMode: ref.watch(themeNotifier).theme,
       home: const CategoryPage(
         title: "Category:Browse",
+        wikiName: "Wiki Name",
       ),
     );
   }

@@ -1,14 +1,13 @@
-import 'package:fandom_clone/ui/screens/category/category_screen.dart';
 import 'package:flutter/material.dart';
 
 class PageHeader extends StatelessWidget {
   const PageHeader({
     super.key,
-    required this.parentWidget,
+    required this.title,
     required this.context,
   });
 
-  final CategoryPage parentWidget;
+  final String title;
   final BuildContext context;
 
   @override
@@ -21,7 +20,7 @@ class PageHeader extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(
-                parentWidget.title,
+                title,
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,

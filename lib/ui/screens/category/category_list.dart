@@ -8,12 +8,12 @@ class CategoryList extends StatelessWidget {
   const CategoryList({
     super.key,
     required this.subsections,
-    required this.parentWidget,
+    required this.wikiName,
     required this.setCategoryExpandedCallback,
   });
 
   final List<CategorySubsection> subsections;
-  final CategoryPage parentWidget;
+  final String wikiName;
   final Function({
     required int index,
     required bool isExpanded,
@@ -83,8 +83,14 @@ class CategoryList extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => page.namespace == Namespace.category
-                                              ? CategoryPage(title: page.pagename)
-                                              : ArticlePage(title: page.pagename),
+                                              ? CategoryPage(
+                                                  title: page.pagename,
+                                                  wikiName: wikiName,
+                                                )
+                                              : ArticlePage(
+                                                  title: page.pagename,
+                                                  wikiName: wikiName,
+                                                ),
                                         ),
                                       ),
                                       child: Padding(

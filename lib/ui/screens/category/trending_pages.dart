@@ -7,10 +7,12 @@ import '../../model/namespace.dart';
 class TrendingPages extends StatelessWidget {
   const TrendingPages({
     this.pages = const [],
+    required this.wikiName,
     super.key,
   });
 
   final List<PageMetadata> pages;
+  final String wikiName;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,10 @@ class TrendingPages extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ArticlePage(title: page.pagename),
+                            builder: (context) => ArticlePage(
+                              title: page.pagename,
+                              wikiName: wikiName,
+                            ),
                           ),
                         );
                       }

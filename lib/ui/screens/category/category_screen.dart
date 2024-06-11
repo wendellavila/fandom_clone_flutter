@@ -10,11 +10,13 @@ import '../../model/page_metadata.dart';
 
 class CategorySubsection {
   final String title;
+  final String wikiName;
   bool isExpanded;
   final List<PageMetadata> pages;
 
   CategorySubsection({
     required this.title,
+    required this.wikiName,
     this.isExpanded = false,
     required this.pages,
   });
@@ -22,8 +24,9 @@ class CategorySubsection {
 
 class CategoryPage extends StatefulWidget {
   final String title;
+  final String wikiName;
 
-  const CategoryPage({this.title = "Category Name", super.key});
+  const CategoryPage({required this.title, required this.wikiName, super.key});
 
   @override
   State<CategoryPage> createState() => _CategoryPage();
@@ -64,7 +67,12 @@ class _CategoryPage extends State<CategoryPage> {
 
     if (pagesStartingWithSymbol.isNotEmpty) {
       pagesByInitial.add(
-        CategorySubsection(title: '#', isExpanded: true, pages: pagesStartingWithSymbol),
+        CategorySubsection(
+          title: '#',
+          wikiName: widget.wikiName,
+          isExpanded: true,
+          pages: pagesStartingWithSymbol,
+        ),
       );
     }
 
@@ -74,6 +82,7 @@ class _CategoryPage extends State<CategoryPage> {
       if (pagesStartingWithLetter.isNotEmpty) {
         pagesByInitial.add(CategorySubsection(
           title: letter,
+          wikiName: widget.wikiName,
           isExpanded: true,
           pages: pagesStartingWithLetter,
         ));
@@ -108,11 +117,14 @@ class _CategoryPage extends State<CategoryPage> {
         physics: const ClampingScrollPhysics(),
         slivers: [
           const TopNavigationBar(),
-          PageHeader(context: context, parentWidget: widget),
-          TrendingPages(pages: _getTopPages(pages: _pages)),
+          PageHeader(context: context, title: widget.title),
+          TrendingPages(
+            pages: _getTopPages(pages: _pages),
+            wikiName: widget.wikiName,
+          ),
           CategoryList(
             subsections: _pagesByInitial,
-            parentWidget: widget,
+            wikiName: widget.wikiName,
             setCategoryExpandedCallback: _setCategoryExpanded,
           ),
         ],
