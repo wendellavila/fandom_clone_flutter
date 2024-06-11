@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData themeData({required BuildContext context, required ThemeMode themeMode}) {
-  ThemeData lightTheme = ThemeData(
+  final lightTheme = ThemeData(
     iconTheme: const IconThemeData(color: Color(0XFF3A3A3A)),
     textTheme: const TextTheme(
         bodyLarge: TextStyle(color: Color(0XFF3A3A3A)),
@@ -26,7 +26,7 @@ ThemeData themeData({required BuildContext context, required ThemeMode themeMode
     ),
   );
 
-  ThemeData darkTheme = ThemeData(
+  final darkTheme = ThemeData(
     iconTheme: const IconThemeData(color: Color(0XFFE6E6E6)),
     textTheme: const TextTheme(
         bodyLarge: TextStyle(color: Color(0XFFE6E6E6)),
