@@ -1,8 +1,8 @@
 import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fandom_clone/ui/model/page_metadata.dart';
+import 'package:fandom_clone/model/page_metadata.dart';
 
-import '../../model/namespace.dart';
+import '../../../model/namespace.dart';
 
 class TrendingPages extends StatelessWidget {
   const TrendingPages({

@@ -1,12 +1,13 @@
 import 'package:fandom_clone/ui/screens/category/category_list.dart';
+import 'package:fandom_clone/ui/widgets/page_footer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fandom_clone/ui/widgets/topbar.dart';
 
-import '../../model/namespace.dart';
+import 'package:fandom_clone/model/namespace.dart';
 import 'page_header.dart';
 import 'trending_pages.dart';
-import '../../model/page_metadata.dart';
+import 'package:fandom_clone/model/page_metadata.dart';
 
 class CategorySubsection {
   final String title;
@@ -126,6 +127,11 @@ class _CategoryPage extends State<CategoryPage> {
             subsections: _pagesByInitial,
             wikiName: widget.wikiName,
             setCategoryExpandedCallback: _setCategoryExpanded,
+          ),
+          PageFooter(
+            title: widget.title,
+            wikiName: widget.wikiName,
+            categories: const [],
           ),
         ],
       ),

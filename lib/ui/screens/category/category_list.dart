@@ -2,7 +2,7 @@ import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:fandom_clone/ui/screens/category/category_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/namespace.dart';
+import '../../../model/namespace.dart';
 
 class CategoryList extends StatelessWidget {
   const CategoryList({
@@ -44,11 +44,14 @@ class CategoryList extends StatelessWidget {
                   expandedHeaderPadding: EdgeInsets.zero,
                   expandIconColor: Theme.of(context).colorScheme.onSecondary,
                   expansionCallback: (_, isExpanded) {
-                    setCategoryExpandedCallback(index: panelIndex, isExpanded: isExpanded);
+                    setCategoryExpandedCallback(
+                      index: panelIndex,
+                      isExpanded: isExpanded,
+                    );
                   },
                   children: [
                     ExpansionPanel(
-                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                      backgroundColor: Theme.of(context).colorScheme.surface,
                       isExpanded: subsections[panelIndex].isExpanded,
                       canTapOnHeader: true,
                       headerBuilder: (context, isExpanded) {
@@ -71,7 +74,10 @@ class CategoryList extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(vertical: 8),
                                     child: TextButton(
                                       style: TextButton.styleFrom(
-                                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 4,
+                                          vertical: 10,
+                                        ),
                                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                         alignment: Alignment.centerLeft,
                                         minimumSize: Size.zero,

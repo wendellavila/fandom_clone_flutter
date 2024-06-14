@@ -1,3 +1,4 @@
+import 'package:fandom_clone/ui/widgets/page_footer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fandom_clone/ui/widgets/topbar.dart';
@@ -44,6 +45,10 @@ class _ArticlePage extends State<ArticlePage> {
           const TopNavigationBar(),
           PageHeader(widget: widget, context: context),
           Infobox(pageData: pageData, context: context),
+          PageFooter(
+            title: widget.title,
+            wikiName: widget.wikiName,
+          ),
         ],
       ),
     );
