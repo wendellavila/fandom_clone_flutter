@@ -73,14 +73,27 @@ class PageFooter extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      CircleAvatar(
-                        backgroundColor: Theme.of(context).colorScheme.secondary,
-                        radius: 9,
-                        child: const CircleAvatar(
-                          backgroundImage: AssetImage('img/user.png'),
-                          radius: 8,
+                      Expanded(
+                        child: SizedBox(
+                          height: 20,
+                          child: Stack(
+                            children: [
+                              for (var i = 0; i < 3; i++)
+                                Positioned(
+                                  right: i * 12,
+                                  child: CircleAvatar(
+                                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                                    radius: 10,
+                                    child: const CircleAvatar(
+                                      backgroundImage: AssetImage('img/user.png'),
+                                      radius: 9,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -174,34 +187,36 @@ class PageFooter extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 12, bottom: 14),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Community content is available under ',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                        ),
+                  padding: const EdgeInsets.only(left: 8, top: 12, bottom: 14, right: 8),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: 'Community content is available under ',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
-                      Text(
-                        'CC-BY-SA',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
+                      children: [
+                        TextSpan(
+                          text: 'CC-BY-SA',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      const Text(
-                        ' unless otherwise noted.',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      )
-                    ],
+                        const TextSpan(
+                          text: ' unless otherwise noted.',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           )

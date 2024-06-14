@@ -1,8 +1,10 @@
+import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fandom_clone/providers/theme_notifier.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const double _height = 40.0;
 
@@ -26,11 +28,29 @@ class TopNavigationBar extends StatelessWidget {
           preferredSize: const Size.fromHeight(0),
           child: BottomBar(title: title, context: context),
         ),
-        title: Text(
-          "Fandom",
-          style: TextStyle(
-              color: ref.read(themeNotifier).isThemeLight ? const Color(0XFF520044) : const Color(0XFFFFC500),
-              fontFamily: GoogleFonts.russoOne().fontFamily),
+        title: TextButton(
+          onPressed: () async {
+            await launchUrl(Uri.parse('https://fandom.com'));
+          },
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              text: 'Fand',
+              style: TextStyle(
+                  color: ref.read(themeNotifier).isThemeLight ? const Color(0XFF520044) : const Color(0XFFFFC500),
+                  fontFamily: GoogleFonts.russoOne().fontFamily,
+                  fontSize: 22),
+              children: const [
+                TextSpan(
+                  text: 'o',
+                  style: TextStyle(
+                    color: Color(0xfffa005a),
+                  ),
+                ),
+                TextSpan(text: 'm'),
+              ],
+            ),
+          ),
         ),
         actions: [
           IconButton(
@@ -83,9 +103,24 @@ class BottomBar extends StatelessWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       toolbarHeight: _height,
-      title: Text(
-        title.toUpperCase(),
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 0.5),
+      title: TextButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ArticlePage(
+              title: 'Main Page',
+              wikiName: title,
+            ),
+          ),
+        ),
+        child: Text(
+          title.toUpperCase(),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.5,
+          ),
+        ),
       ),
       actions: [
         IconButton(
@@ -123,7 +158,10 @@ class BottomBar extends StatelessWidget {
               ),
               menuItemStyleData: const MenuItemStyleData(
                 height: 45,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 0,
+                ),
               ),
               items: [
                 DropdownMenuItem(
@@ -162,7 +200,10 @@ class BottomBar extends StatelessWidget {
                       ),
                       Text(
                         "${ref.watch(themeNotifier).isThemeLight ? "Dark" : "Light"} Theme",
-                        style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onPrimaryContainer),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
                       )
                     ],
                   ),

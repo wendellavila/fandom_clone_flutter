@@ -1,5 +1,6 @@
 import 'package:fandom_clone/ui/screens/category/category_list.dart';
 import 'package:fandom_clone/ui/widgets/page_footer.dart';
+import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fandom_clone/ui/widgets/topbar.dart';
@@ -132,6 +133,9 @@ class _CategoryPage extends State<CategoryPage> {
             title: widget.title,
             wikiName: widget.wikiName,
             categories: const [],
+          ),
+          WikiFooter(
+            wikiName: widget.wikiName,
           ),
         ],
       ),
