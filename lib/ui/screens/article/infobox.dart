@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fandom_clone/model/page_data.dart';
 
 class Infobox extends StatelessWidget {
   const Infobox({
     super.key,
     required this.pageData,
-    required this.context,
   });
 
-  final Map<String, dynamic> pageData;
-  final BuildContext context;
+  final PageData pageData;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class Infobox extends StatelessWidget {
                 image: DecorationImage(
                   colorFilter: const ColorFilter.linearToSrgbGamma(),
                   fit: BoxFit.cover,
-                  image: AssetImage(pageData['infobox']['image']),
+                  image: AssetImage(pageData.infobox.image),
                 ),
               ),
               height: 300,
@@ -42,7 +41,7 @@ class Infobox extends StatelessWidget {
                   Flexible(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                      child: Text(pageData['infobox']['caption']),
+                      child: Text(pageData.description),
                     ),
                   ),
                 ],
@@ -79,7 +78,7 @@ class Infobox extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  for (final entry in pageData['infobox']['fields'].entries)
+                  for (final entry in pageData.infobox.fields)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                       child: Row(
@@ -87,7 +86,7 @@ class Infobox extends StatelessWidget {
                           Expanded(
                             flex: 2,
                             child: Text(
-                              entry.key.toUpperCase(),
+                              entry.title,
                               style: const TextStyle(
                                 letterSpacing: -0.2,
                                 fontSize: 11,
@@ -98,7 +97,7 @@ class Infobox extends StatelessWidget {
                           Expanded(
                             flex: 3,
                             child: Text(
-                              entry.value,
+                              entry.content,
                               style: const TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w200,
@@ -111,7 +110,6 @@ class Infobox extends StatelessWidget {
                 ],
               ),
             ),
-            const Text("Header"),
           ],
         ),
       ),

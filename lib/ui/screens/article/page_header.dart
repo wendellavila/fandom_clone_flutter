@@ -1,15 +1,12 @@
-import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:flutter/material.dart';
 
 class PageHeader extends StatelessWidget {
   const PageHeader({
     super.key,
-    required this.widget,
-    required this.context,
+    required this.pagename,
   });
 
-  final ArticlePage widget;
-  final BuildContext context;
+  final String pagename;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +16,7 @@ class PageHeader extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              widget.title,
+              pagename,
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -44,7 +41,11 @@ class PageHeader extends StatelessWidget {
                       ),
                       Text(
                         "EDIT",
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.onSecondary),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                       ),
                     ],
                   ),

@@ -108,7 +108,7 @@ class BottomBar extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ArticlePage(
-              title: 'Main Page',
+              pagename: 'Main Page',
               wikiName: title,
             ),
           ),

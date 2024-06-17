@@ -8,13 +8,13 @@ import 'package:fandom_clone/ui/widgets/topbar.dart';
 import 'package:fandom_clone/model/namespace.dart';
 import 'page_header.dart';
 import 'trending_pages.dart';
-import 'package:fandom_clone/model/page_metadata.dart';
+import 'package:fandom_clone/model/page_info.dart';
 
 class CategorySubsection {
   final String title;
   final String wikiName;
   bool isExpanded;
-  final List<PageMetadata> pages;
+  final List<PageInfo> pages;
 
   CategorySubsection({
     required this.title,
@@ -35,14 +35,14 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPage extends State<CategoryPage> {
-  final List<PageMetadata> _pages = [
-    PageMetadata(pagename: "More", namespace: Namespace.category),
-    PageMetadata(pagename: "A Test"),
-    PageMetadata(pagename: "A2"),
-    PageMetadata(pagename: "B Test"),
-    PageMetadata(pagename: "b 123"),
-    PageMetadata(pagename: "°def"),
-    PageMetadata(pagename: "*ijk"),
+  final List<PageInfo> _pages = [
+    PageInfo(pagename: "More", namespace: Namespace.category),
+    PageInfo(pagename: "A Test"),
+    PageInfo(pagename: "A2"),
+    PageInfo(pagename: "B Test"),
+    PageInfo(pagename: "b 123"),
+    PageInfo(pagename: "°def"),
+    PageInfo(pagename: "*ijk"),
   ];
   late List<CategorySubsection> _pagesByInitial;
 
@@ -57,7 +57,7 @@ class _CategoryPage extends State<CategoryPage> {
     return pagename.replaceFirst(namespaceRegex, '');
   }
 
-  List<CategorySubsection> _groupPagesByInitialMinusNamespace({required List<PageMetadata> pages}) {
+  List<CategorySubsection> _groupPagesByInitialMinusNamespace({required List<PageInfo> pages}) {
     final List<CategorySubsection> pagesByInitial = [];
 
     final List<String> alphabet = List.generate(
@@ -65,7 +65,7 @@ class _CategoryPage extends State<CategoryPage> {
       (index) => String.fromCharCode(index + 65),
     );
 
-    List<PageMetadata> pagesStartingWithSymbol = pages.where((PageMetadata page) => !alphabet.contains(page.pagename[0].toUpperCase())).toList();
+    List<PageInfo> pagesStartingWithSymbol = pages.where((PageInfo page) => !alphabet.contains(page.pagename[0].toUpperCase())).toList();
 
     if (pagesStartingWithSymbol.isNotEmpty) {
       pagesByInitial.add(
@@ -79,8 +79,8 @@ class _CategoryPage extends State<CategoryPage> {
     }
 
     for (String letter in alphabet) {
-      List<PageMetadata> pagesStartingWithLetter =
-          pages.where((PageMetadata page) => _stripNamespace(pagename: page.pagename)[0].toUpperCase() == letter).toList();
+      List<PageInfo> pagesStartingWithLetter =
+          pages.where((PageInfo page) => _stripNamespace(pagename: page.pagename)[0].toUpperCase() == letter).toList();
       if (pagesStartingWithLetter.isNotEmpty) {
         pagesByInitial.add(CategorySubsection(
           title: letter,
@@ -93,10 +93,10 @@ class _CategoryPage extends State<CategoryPage> {
     return pagesByInitial;
   }
 
-  List<PageMetadata> _getTopPages({required List<PageMetadata> pages}) {
+  List<PageInfo> _getTopPages({required List<PageInfo> pages}) {
     pages = pages
         .where((page) => page.namespace == Namespace.main)
-        .map((page) => PageMetadata(
+        .map((page) => PageInfo(
               pagename: _stripNamespace(pagename: page.pagename),
               namespace: page.namespace,
             ))

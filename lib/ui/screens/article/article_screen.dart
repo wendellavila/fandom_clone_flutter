@@ -1,4 +1,8 @@
+import 'package:fandom_clone/model/page_data.dart';
+import 'package:fandom_clone/model/section_data.dart';
+import 'package:fandom_clone/ui/screens/article/sections.dart';
 import 'package:fandom_clone/ui/widgets/page_footer.dart';
+import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fandom_clone/ui/widgets/topbar.dart';
@@ -7,34 +11,41 @@ import 'infobox.dart';
 import 'page_header.dart';
 
 class ArticlePage extends StatefulWidget {
-  final String title;
+  final String pagename;
   final String wikiName;
+  late final List<SectionData> sections;
 
-  const ArticlePage({required this.title, required this.wikiName, super.key});
+  final PageData pageData = const PageData(
+    infobox: InfoboxData(
+      image: "assets/img/user.png",
+      fields: [
+        TitleContentPair(title: "Label 1", content: "Content 1"),
+      ],
+    ),
+    description: "Description",
+    sections: [
+      TitleContentPair(title: "Header 1", content: "Content 1"),
+    ],
+  );
+
+  ArticlePage({required this.pagename, required this.wikiName, super.key}) {
+    sections = pageData.sections
+        .map((section) => SectionData(
+              title: section.title,
+              content: section.content,
+            ))
+        .toList();
+  }
   @override
   State<ArticlePage> createState() => _ArticlePage();
 }
 
 class _ArticlePage extends State<ArticlePage> {
-  final Map<String, dynamic> pageData = {
-    "infobox": {
-      "image": "assets/img/user.png",
-      "caption": "Caption",
-      "fields": {
-        "Label 1": "Content 1",
-        "Label 2": "Content 2",
-        "Label 3": "Content 3",
-        "Label 4": "Content 4",
-      },
-    },
-    "description": "description",
-    "sections": {
-      "Header 1": "Content 1",
-      "Header 2": "Content 2",
-      "Header 3": "Content 3",
-      "Header 4": "Content 4",
-    },
-  };
+  void _setSectionExpanded({required int index, required bool isExpanded}) {
+    setState(() {
+      widget.sections[index].isExpanded = isExpanded;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +54,20 @@ class _ArticlePage extends State<ArticlePage> {
         physics: const ClampingScrollPhysics(),
         slivers: [
           const TopNavigationBar(),
-          PageHeader(widget: widget, context: context),
-          Infobox(pageData: pageData, context: context),
+          PageHeader(pagename: widget.pagename),
+          Infobox(pageData: widget.pageData),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            sliver: SectionList(
+              sections: widget.sections,
+              setSectionExpandedCallback: _setSectionExpanded,
+            ),
+          ),
           PageFooter(
-            title: widget.title,
+            title: widget.pagename,
             wikiName: widget.wikiName,
           ),
+          WikiFooter(wikiName: widget.wikiName)
         ],
       ),
     );

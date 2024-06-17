@@ -1,8 +1,8 @@
 import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fandom_clone/model/page_metadata.dart';
+import 'package:fandom_clone/model/page_info.dart';
 
-import '../../../model/namespace.dart';
+import 'package:fandom_clone/model/namespace.dart';
 
 class TrendingPages extends StatelessWidget {
   const TrendingPages({
@@ -11,7 +11,7 @@ class TrendingPages extends StatelessWidget {
     super.key,
   });
 
-  final List<PageMetadata> pages;
+  final List<PageInfo> pages;
   final String wikiName;
 
   @override
@@ -47,7 +47,7 @@ class TrendingPages extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ArticlePage(
-                              title: page.pagename,
+                              pagename: page.pagename,
                               wikiName: wikiName,
                             ),
                           ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fandom_clone/model/page_metadata.dart';
+import 'package:fandom_clone/model/page_info.dart';
 
 import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:fandom_clone/ui/screens/category/category_screen.dart';
@@ -23,7 +23,7 @@ class TriangleClipper extends CustomClipper<Path> {
 class PageFooter extends StatelessWidget {
   const PageFooter({this.categories = const [], required this.title, required this.wikiName, super.key});
 
-  final List<PageMetadata> categories;
+  final List<PageInfo> categories;
   final String title;
   final String wikiName;
 
@@ -176,7 +176,7 @@ class PageFooter extends StatelessWidget {
                                             wikiName: wikiName,
                                           )
                                         : ArticlePage(
-                                            title: page.pagename,
+                                            pagename: page.pagename,
                                             wikiName: wikiName,
                                           ),
                                   ),

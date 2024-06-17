@@ -2,7 +2,7 @@ import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:fandom_clone/ui/screens/category/category_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/namespace.dart';
+import 'package:fandom_clone/model/namespace.dart';
 
 class CategoryList extends StatelessWidget {
   const CategoryList({
@@ -34,22 +34,24 @@ class CategoryList extends StatelessWidget {
             ),
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.only(bottom: 10),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, panelIndex) {
-                return ExpansionPanelList(
-                  elevation: 0,
-                  expandedHeaderPadding: EdgeInsets.zero,
-                  expandIconColor: Theme.of(context).colorScheme.onSecondary,
-                  expansionCallback: (_, isExpanded) {
-                    setCategoryExpandedCallback(
-                      index: panelIndex,
-                      isExpanded: isExpanded,
-                    );
-                  },
-                  children: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Theme(
+              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionPanelList(
+                elevation: 0,
+                expandedHeaderPadding: EdgeInsets.zero,
+                materialGapSize: 0.0,
+                expandIconColor: Theme.of(context).colorScheme.onSecondary,
+                expansionCallback: (panelIndex, isExpanded) {
+                  setCategoryExpandedCallback(
+                    index: panelIndex,
+                    isExpanded: isExpanded,
+                  );
+                },
+                children: [
+                  for (int panelIndex = 0; panelIndex < subsections.length; panelIndex++)
                     ExpansionPanel(
                       backgroundColor: Theme.of(context).colorScheme.surface,
                       isExpanded: subsections[panelIndex].isExpanded,
@@ -94,7 +96,7 @@ class CategoryList extends StatelessWidget {
                                                   wikiName: wikiName,
                                                 )
                                               : ArticlePage(
-                                                  title: page.pagename,
+                                                  pagename: page.pagename,
                                                   wikiName: wikiName,
                                                 ),
                                         ),
@@ -128,11 +130,9 @@ class CategoryList extends StatelessWidget {
                               .toList(),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
-              childCount: subsections.length,
+                    )
+                ],
+              ),
             ),
           ),
         ),

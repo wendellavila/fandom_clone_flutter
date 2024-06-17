@@ -1,7 +1,7 @@
 import 'namespace.dart';
 
-class PageMetadata implements Comparable {
-  PageMetadata({required this.pagename, this.namespace = Namespace.main});
+class PageInfo implements Comparable {
+  PageInfo({required this.pagename, this.namespace = Namespace.main});
   final String pagename;
   final Namespace namespace;
 
