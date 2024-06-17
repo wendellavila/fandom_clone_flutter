@@ -124,6 +124,7 @@ class BottomBar extends StatelessWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       toolbarHeight: _height,
+      titleSpacing: 4,
       title: TextButton(
         onPressed: () => Navigator.push(
           context,
