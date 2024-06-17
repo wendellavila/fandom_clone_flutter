@@ -8,6 +8,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 const double _height = 40.0;
 
+const fandomYellow = Color(0XFFFFC500);
+const fandomPurple = Color(0XFF520044);
+const fandomPink = Color(0XFFFA005A);
+const fandomPurpleTranslucent = Color.fromARGB(19, 82, 0, 68);
+const fandomYellowTranslucent = Color.fromARGB(19, 255, 197, 0);
+
 class TopNavigationBar extends StatelessWidget {
   const TopNavigationBar({
     this.title = "Wiki Name",
@@ -20,7 +26,7 @@ class TopNavigationBar extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) => SliverAppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: ref.read(themeNotifier).isThemeLight ? const Color(0XFFFFC500) : const Color(0XFF520044),
+        backgroundColor: ref.read(themeNotifier).isThemeLight ? fandomYellow : fandomPurple,
         pinned: true,
         toolbarHeight: _height,
         expandedHeight: _height * 2,
@@ -28,23 +34,29 @@ class TopNavigationBar extends StatelessWidget {
           preferredSize: const Size.fromHeight(0),
           child: BottomBar(title: title, context: context),
         ),
+        titleSpacing: 3,
         title: TextButton(
           onPressed: () async {
             await launchUrl(Uri.parse('https://fandom.com'));
           },
+          style: ButtonStyle(
+            overlayColor: WidgetStateColor.resolveWith(
+              (_) => ref.watch(themeNotifier).isThemeLight ? fandomPurpleTranslucent : fandomYellowTranslucent,
+            ),
+          ),
           child: RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
               text: 'Fand',
               style: TextStyle(
-                  color: ref.read(themeNotifier).isThemeLight ? const Color(0XFF520044) : const Color(0XFFFFC500),
+                  color: ref.read(themeNotifier).isThemeLight ? fandomPurple : fandomYellow,
                   fontFamily: GoogleFonts.russoOne().fontFamily,
                   fontSize: 22),
               children: const [
                 TextSpan(
                   text: 'o',
                   style: TextStyle(
-                    color: Color(0xfffa005a),
+                    color: fandomPink,
                   ),
                 ),
                 TextSpan(text: 'm'),
@@ -56,27 +68,36 @@ class TopNavigationBar extends StatelessWidget {
           IconButton(
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
+              hoverColor: ref.watch(themeNotifier).isThemeLight ? fandomPurpleTranslucent : fandomYellowTranslucent,
+              highlightColor: ref.watch(themeNotifier).isThemeLight ? fandomPurpleTranslucent : fandomYellowTranslucent,
+              splashColor: ref.watch(themeNotifier).isThemeLight ? fandomPurpleTranslucent : fandomYellowTranslucent,
               icon: Icon(
                 Icons.search_outlined,
                 size: 22,
-                color: ref.watch(themeNotifier).isThemeLight ? const Color(0XFF520044) : const Color(0XFFFFC500),
+                color: ref.watch(themeNotifier).isThemeLight ? fandomPurple : fandomYellow,
               ),
               onPressed: () {}),
           IconButton(
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
+              hoverColor: ref.watch(themeNotifier).isThemeLight ? fandomPurpleTranslucent : fandomYellowTranslucent,
+              highlightColor: ref.watch(themeNotifier).isThemeLight ? fandomPurpleTranslucent : fandomYellowTranslucent,
+              splashColor: ref.watch(themeNotifier).isThemeLight ? fandomPurpleTranslucent : fandomYellowTranslucent,
               icon: Icon(
                 Icons.notifications_outlined,
                 size: 22,
-                color: ref.watch(themeNotifier).isThemeLight ? const Color(0XFF520044) : const Color(0XFFFFC500),
+                color: ref.watch(themeNotifier).isThemeLight ? fandomPurple : fandomYellow,
               ),
               onPressed: () {}),
           IconButton(
             visualDensity: VisualDensity.compact,
             padding: EdgeInsets.zero,
+            hoverColor: ref.watch(themeNotifier).isThemeLight ? fandomPurpleTranslucent : fandomYellowTranslucent,
+            highlightColor: ref.watch(themeNotifier).isThemeLight ? fandomPurpleTranslucent : fandomYellowTranslucent,
+            splashColor: ref.watch(themeNotifier).isThemeLight ? fandomPurpleTranslucent : fandomYellowTranslucent,
             icon: CircleAvatar(
               radius: 10,
-              backgroundColor: ref.watch(themeNotifier).isThemeLight ? const Color(0XFF520044) : const Color(0XFFFFC500),
+              backgroundColor: ref.watch(themeNotifier).isThemeLight ? fandomPurple : fandomYellow,
               child: Padding(
                 padding: const EdgeInsets.all(2),
                 child: ClipOval(
@@ -119,6 +140,7 @@ class BottomBar extends StatelessWidget {
             fontSize: 14,
             fontWeight: FontWeight.w600,
             letterSpacing: 0.5,
+            color: Colors.white,
           ),
         ),
       ),
@@ -142,7 +164,7 @@ class BottomBar extends StatelessWidget {
                 }
               },
               customButton: const Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8),
                 child: Icon(
                   Icons.notes_outlined,
                   size: 21,
