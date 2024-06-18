@@ -27,8 +27,14 @@ class CategorySubsection {
 class CategoryPage extends StatefulWidget {
   final String title;
   final String wikiName;
+  final String wikiPrefix;
 
-  const CategoryPage({required this.title, required this.wikiName, super.key});
+  const CategoryPage({
+    required this.title,
+    required this.wikiName,
+    required this.wikiPrefix,
+    super.key,
+  });
 
   @override
   State<CategoryPage> createState() => _CategoryPage();
@@ -123,15 +129,18 @@ class _CategoryPage extends State<CategoryPage> {
           TrendingPages(
             pages: _getTopPages(pages: _pages),
             wikiName: widget.wikiName,
+            wikiPrefix: widget.wikiPrefix,
           ),
           CategoryList(
             subsections: _pagesByInitial,
             wikiName: widget.wikiName,
+            wikiPrefix: widget.wikiPrefix,
             setCategoryExpandedCallback: _setCategoryExpanded,
           ),
           PageFooter(
             title: widget.title,
             wikiName: widget.wikiName,
+            wikiPrefix: widget.wikiPrefix,
             categories: const [],
           ),
           WikiFooter(

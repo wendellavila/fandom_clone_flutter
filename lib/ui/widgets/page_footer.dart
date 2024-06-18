@@ -21,11 +21,18 @@ class TriangleClipper extends CustomClipper<Path> {
 }
 
 class PageFooter extends StatelessWidget {
-  const PageFooter({this.categories = const [], required this.title, required this.wikiName, super.key});
+  const PageFooter({
+    this.categories = const [],
+    required this.title,
+    required this.wikiName,
+    required this.wikiPrefix,
+    super.key,
+  });
 
   final List<PageInfo> categories;
   final String title;
   final String wikiName;
+  final String wikiPrefix;
 
   @override
   Widget build(BuildContext context) {
@@ -174,10 +181,12 @@ class PageFooter extends StatelessWidget {
                                         ? CategoryPage(
                                             title: page.pagename,
                                             wikiName: wikiName,
+                                            wikiPrefix: wikiPrefix,
                                           )
                                         : ArticlePage(
                                             pagename: page.pagename,
                                             wikiName: wikiName,
+                                            wikiPrefix: wikiPrefix,
                                           ),
                                   ),
                                 ),

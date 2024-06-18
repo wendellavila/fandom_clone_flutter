@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+extension CustomColorSchemeX on ColorScheme {
+  Color get fandomYellow => const Color(0XFFFFC500);
+  Color get fandomPurple => const Color(0XFF520044);
+  Color get fandomPink => const Color(0XFFFA005A);
+  Color get fandomPurpleTranslucent => const Color.fromARGB(19, 82, 0, 68);
+  Color get fandomYellowTranslucent => const Color.fromARGB(19, 255, 197, 0);
+}
+
 ThemeData themeData({required BuildContext context, required ThemeMode themeMode}) {
   final lightTheme = ThemeData(
     iconTheme: const IconThemeData(color: Color(0XFF3A3A3A)),

@@ -1,7 +1,7 @@
+import 'package:fandom_clone/ui/screens/fandom_home/fandom_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fandom_clone/ui/screens/category/category_screen.dart';
 import 'package:fandom_clone/providers/theme_notifier.dart';
 import 'package:fandom_clone/config/theme_data.dart';
 
@@ -30,10 +30,7 @@ class _AppState extends ConsumerState<App> {
       theme: themeData(context: context, themeMode: ThemeMode.light),
       darkTheme: themeData(context: context, themeMode: ThemeMode.dark),
       themeMode: ref.watch(themeNotifier).theme,
-      home: const CategoryPage(
-        title: "Category:Browse",
-        wikiName: "Wiki Name",
-      ),
+      home: const FandomHomePage(),
     );
   }
 }

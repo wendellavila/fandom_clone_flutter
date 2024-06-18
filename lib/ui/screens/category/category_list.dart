@@ -9,11 +9,13 @@ class CategoryList extends StatelessWidget {
     super.key,
     required this.subsections,
     required this.wikiName,
+    required this.wikiPrefix,
     required this.setCategoryExpandedCallback,
   });
 
   final List<CategorySubsection> subsections;
   final String wikiName;
+  final String wikiPrefix;
   final Function({
     required int index,
     required bool isExpanded,
@@ -94,15 +96,20 @@ class CategoryList extends StatelessWidget {
                                               ? CategoryPage(
                                                   title: page.pagename,
                                                   wikiName: wikiName,
+                                                  wikiPrefix: wikiPrefix,
                                                 )
                                               : ArticlePage(
                                                   pagename: page.pagename,
                                                   wikiName: wikiName,
+                                                  wikiPrefix: wikiPrefix,
                                                 ),
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 4,
+                                          horizontal: 2,
+                                        ),
                                         child: Row(
                                           children: [
                                             const Icon(

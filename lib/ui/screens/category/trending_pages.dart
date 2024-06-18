@@ -8,11 +8,13 @@ class TrendingPages extends StatelessWidget {
   const TrendingPages({
     this.pages = const [],
     required this.wikiName,
+    required this.wikiPrefix,
     super.key,
   });
 
   final List<PageInfo> pages;
   final String wikiName;
+  final String wikiPrefix;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class TrendingPages extends StatelessWidget {
                             builder: (context) => ArticlePage(
                               pagename: page.pagename,
                               wikiName: wikiName,
+                              wikiPrefix: wikiPrefix,
                             ),
                           ),
                         );

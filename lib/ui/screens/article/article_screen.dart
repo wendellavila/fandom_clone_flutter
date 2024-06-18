@@ -13,6 +13,7 @@ import 'page_header.dart';
 class ArticlePage extends StatefulWidget {
   final String pagename;
   final String wikiName;
+  final String wikiPrefix;
   late final List<SectionData> sections;
 
   final PageData pageData = const PageData(
@@ -28,7 +29,12 @@ class ArticlePage extends StatefulWidget {
     ],
   );
 
-  ArticlePage({required this.pagename, required this.wikiName, super.key}) {
+  ArticlePage({
+    required this.pagename,
+    required this.wikiName,
+    required this.wikiPrefix,
+    super.key,
+  }) {
     sections = pageData.sections
         .map((section) => SectionData(
               title: section.title,
@@ -66,6 +72,7 @@ class _ArticlePage extends State<ArticlePage> {
           PageFooter(
             title: widget.pagename,
             wikiName: widget.wikiName,
+            wikiPrefix: widget.wikiPrefix,
           ),
           WikiFooter(wikiName: widget.wikiName)
         ],
