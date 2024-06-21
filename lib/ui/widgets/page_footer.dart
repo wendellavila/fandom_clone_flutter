@@ -1,3 +1,4 @@
+import 'package:fandom_clone/model/wiki_info.dart';
 import 'package:flutter/material.dart';
 import 'package:fandom_clone/model/page_info.dart';
 
@@ -24,15 +25,13 @@ class PageFooter extends StatelessWidget {
   const PageFooter({
     this.categories = const [],
     required this.title,
-    required this.wikiName,
-    required this.wikiPrefix,
+    required this.wikiInfo,
     super.key,
   });
 
   final List<PageInfo> categories;
   final String title;
-  final String wikiName;
-  final String wikiPrefix;
+  final WikiInfo wikiInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -178,16 +177,8 @@ class PageFooter extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => page.namespace == Namespace.category
-                                        ? CategoryPage(
-                                            title: page.pagename,
-                                            wikiName: wikiName,
-                                            wikiPrefix: wikiPrefix,
-                                          )
-                                        : ArticlePage(
-                                            pagename: page.pagename,
-                                            wikiName: wikiName,
-                                            wikiPrefix: wikiPrefix,
-                                          ),
+                                        ? CategoryPage(pageInfo: page, wikiInfo: wikiInfo)
+                                        : ArticlePage(pageInfo: page, wikiInfo: wikiInfo),
                                   ),
                                 ),
                               ))

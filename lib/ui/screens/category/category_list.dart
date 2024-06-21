@@ -1,3 +1,4 @@
+import 'package:fandom_clone/model/wiki_info.dart';
 import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:fandom_clone/ui/screens/category/category_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +9,12 @@ class CategoryList extends StatelessWidget {
   const CategoryList({
     super.key,
     required this.subsections,
-    required this.wikiName,
-    required this.wikiPrefix,
+    required this.wikiInfo,
     required this.setCategoryExpandedCallback,
   });
 
   final List<CategorySubsection> subsections;
-  final String wikiName;
-  final String wikiPrefix;
+  final WikiInfo wikiInfo;
   final Function({
     required int index,
     required bool isExpanded,
@@ -94,14 +93,12 @@ class CategoryList extends StatelessWidget {
                                         MaterialPageRoute(
                                           builder: (context) => page.namespace == Namespace.category
                                               ? CategoryPage(
-                                                  title: page.pagename,
-                                                  wikiName: wikiName,
-                                                  wikiPrefix: wikiPrefix,
+                                                  pageInfo: page,
+                                                  wikiInfo: wikiInfo,
                                                 )
                                               : ArticlePage(
-                                                  pagename: page.pagename,
-                                                  wikiName: wikiName,
-                                                  wikiPrefix: wikiPrefix,
+                                                  pageInfo: page,
+                                                  wikiInfo: wikiInfo,
                                                 ),
                                         ),
                                       ),

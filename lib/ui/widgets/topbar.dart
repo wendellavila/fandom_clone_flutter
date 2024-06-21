@@ -1,24 +1,22 @@
 import 'package:fandom_clone/config/theme_data.dart';
+import 'package:fandom_clone/model/page_info.dart';
+import 'package:fandom_clone/model/wiki_info.dart';
 import 'package:fandom_clone/ui/screens/article/article_screen.dart';
+import 'package:fandom_clone/ui/screens/fandom_home/fandom_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fandom_clone/providers/theme_notifier.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 const double _height = 40.0;
 
 class TopNavigationBar extends StatelessWidget {
   const TopNavigationBar({
-    this.wikiName = '',
-    this.wikiPrefix = '',
-    this.showBottomBar = true,
+    this.wikiInfo,
     super.key,
   });
-  final String wikiName;
-  final String wikiPrefix;
-  final bool showBottomBar;
+  final WikiInfo? wikiInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -29,22 +27,24 @@ class TopNavigationBar extends StatelessWidget {
             ref.read(themeNotifier).isThemeLight ? Theme.of(context).colorScheme.fandomYellow : Theme.of(context).colorScheme.fandomPurple,
         pinned: true,
         toolbarHeight: _height,
-        expandedHeight: _height * (showBottomBar ? 2 : 1),
-        bottom: showBottomBar
+        expandedHeight: _height * (wikiInfo != null ? 2 : 1),
+        bottom: wikiInfo != null
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(0),
                 child: BottomBar(
-                  wikiName: wikiName,
-                  wikiPrefix: wikiPrefix,
+                  wikiInfo: wikiInfo!,
                   context: context,
                 ),
               )
             : null,
         titleSpacing: 3,
         title: TextButton(
-          onPressed: () async {
-            await launchUrl(Uri.parse('https://fandom.com'));
-          },
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const FandomHomePage(),
+            ),
+          ),
           style: ButtonStyle(
             overlayColor: WidgetStateColor.resolveWith(
               (_) => ref.watch(themeNotifier).isThemeLight
@@ -74,25 +74,26 @@ class TopNavigationBar extends StatelessWidget {
           ),
         ),
         actions: [
-          IconButton(
-              visualDensity: VisualDensity.compact,
-              padding: EdgeInsets.zero,
-              hoverColor: ref.watch(themeNotifier).isThemeLight
-                  ? Theme.of(context).colorScheme.fandomPurpleTranslucent
-                  : Theme.of(context).colorScheme.fandomYellowTranslucent,
-              highlightColor: ref.watch(themeNotifier).isThemeLight
-                  ? Theme.of(context).colorScheme.fandomPurpleTranslucent
-                  : Theme.of(context).colorScheme.fandomYellowTranslucent,
-              splashColor: ref.watch(themeNotifier).isThemeLight
-                  ? Theme.of(context).colorScheme.fandomPurpleTranslucent
-                  : Theme.of(context).colorScheme.fandomYellowTranslucent,
-              icon: Icon(
-                Icons.search_outlined,
-                size: 22,
-                color:
-                    ref.watch(themeNotifier).isThemeLight ? Theme.of(context).colorScheme.fandomPurple : Theme.of(context).colorScheme.fandomYellow,
-              ),
-              onPressed: () {}),
+          if (wikiInfo != null)
+            IconButton(
+                visualDensity: VisualDensity.compact,
+                padding: EdgeInsets.zero,
+                hoverColor: ref.watch(themeNotifier).isThemeLight
+                    ? Theme.of(context).colorScheme.fandomPurpleTranslucent
+                    : Theme.of(context).colorScheme.fandomYellowTranslucent,
+                highlightColor: ref.watch(themeNotifier).isThemeLight
+                    ? Theme.of(context).colorScheme.fandomPurpleTranslucent
+                    : Theme.of(context).colorScheme.fandomYellowTranslucent,
+                splashColor: ref.watch(themeNotifier).isThemeLight
+                    ? Theme.of(context).colorScheme.fandomPurpleTranslucent
+                    : Theme.of(context).colorScheme.fandomYellowTranslucent,
+                icon: Icon(
+                  Icons.search_outlined,
+                  size: 22,
+                  color:
+                      ref.watch(themeNotifier).isThemeLight ? Theme.of(context).colorScheme.fandomPurple : Theme.of(context).colorScheme.fandomYellow,
+                ),
+                onPressed: () {}),
           IconButton(
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
@@ -147,13 +148,11 @@ class BottomBar extends StatelessWidget {
   const BottomBar({
     super.key,
     required this.context,
-    required this.wikiName,
-    required this.wikiPrefix,
+    required this.wikiInfo,
   });
 
   final BuildContext context;
-  final String wikiName;
-  final String wikiPrefix;
+  final WikiInfo wikiInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -166,14 +165,13 @@ class BottomBar extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ArticlePage(
-              pagename: 'Main Page',
-              wikiName: wikiName,
-              wikiPrefix: wikiPrefix,
+              pageInfo: PageInfo(pagename: 'Main Page'),
+              wikiInfo: wikiInfo,
             ),
           ),
         ),
         child: Text(
-          wikiName.toUpperCase(),
+          wikiInfo.name.toUpperCase(),
           style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,

@@ -1,5 +1,7 @@
 import 'package:fandom_clone/model/page_data.dart';
+import 'package:fandom_clone/model/page_info.dart';
 import 'package:fandom_clone/model/section_data.dart';
+import 'package:fandom_clone/model/wiki_info.dart';
 import 'package:fandom_clone/ui/screens/article/sections.dart';
 import 'package:fandom_clone/ui/widgets/page_footer.dart';
 import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
@@ -11,9 +13,8 @@ import 'infobox.dart';
 import 'page_header.dart';
 
 class ArticlePage extends StatefulWidget {
-  final String pagename;
-  final String wikiName;
-  final String wikiPrefix;
+  final PageInfo pageInfo;
+  final WikiInfo wikiInfo;
   late final List<SectionData> sections;
 
   final PageData pageData = const PageData(
@@ -30,9 +31,8 @@ class ArticlePage extends StatefulWidget {
   );
 
   ArticlePage({
-    required this.pagename,
-    required this.wikiName,
-    required this.wikiPrefix,
+    required this.pageInfo,
+    required this.wikiInfo,
     super.key,
   }) {
     sections = pageData.sections
@@ -59,8 +59,10 @@ class _ArticlePage extends State<ArticlePage> {
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
-          const TopNavigationBar(),
-          PageHeader(pagename: widget.pagename),
+          TopNavigationBar(
+            wikiInfo: widget.wikiInfo,
+          ),
+          PageHeader(pagename: widget.pageInfo.pagename),
           Infobox(pageData: widget.pageData),
           SliverPadding(
             padding: const EdgeInsets.symmetric(vertical: 10),
@@ -70,11 +72,10 @@ class _ArticlePage extends State<ArticlePage> {
             ),
           ),
           PageFooter(
-            title: widget.pagename,
-            wikiName: widget.wikiName,
-            wikiPrefix: widget.wikiPrefix,
+            title: widget.pageInfo.pagename,
+            wikiInfo: widget.wikiInfo,
           ),
-          WikiFooter(wikiName: widget.wikiName)
+          WikiFooter(wikiInfo: widget.wikiInfo)
         ],
       ),
     );

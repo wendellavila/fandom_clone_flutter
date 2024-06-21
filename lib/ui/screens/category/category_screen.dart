@@ -1,3 +1,4 @@
+import 'package:fandom_clone/model/wiki_info.dart';
 import 'package:fandom_clone/ui/screens/category/category_list.dart';
 import 'package:fandom_clone/ui/widgets/page_footer.dart';
 import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
@@ -9,30 +10,30 @@ import 'package:fandom_clone/model/namespace.dart';
 import 'page_header.dart';
 import 'trending_pages.dart';
 import 'package:fandom_clone/model/page_info.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CategorySubsection {
   final String title;
-  final String wikiName;
+  final WikiInfo wikiInfo;
   bool isExpanded;
   final List<PageInfo> pages;
 
   CategorySubsection({
     required this.title,
-    required this.wikiName,
+    required this.wikiInfo,
     this.isExpanded = false,
     required this.pages,
   });
 }
 
 class CategoryPage extends StatefulWidget {
-  final String title;
-  final String wikiName;
-  final String wikiPrefix;
+  final PageInfo pageInfo;
+  final WikiInfo wikiInfo;
 
   const CategoryPage({
-    required this.title,
-    required this.wikiName,
-    required this.wikiPrefix,
+    required this.pageInfo,
+    required this.wikiInfo,
     super.key,
   });
 
@@ -41,21 +42,50 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPage extends State<CategoryPage> {
-  final List<PageInfo> _pages = [
-    PageInfo(pagename: "More", namespace: Namespace.category),
-    PageInfo(pagename: "A Test"),
-    PageInfo(pagename: "A2"),
-    PageInfo(pagename: "B Test"),
-    PageInfo(pagename: "b 123"),
-    PageInfo(pagename: "°def"),
-    PageInfo(pagename: "*ijk"),
-  ];
-  late List<CategorySubsection> _pagesByInitial;
+  List<PageInfo> _pages = [];
+  List<CategorySubsection> _pagesByInitial = [];
 
   @override
   void initState() {
     super.initState();
-    _pagesByInitial = _groupPagesByInitialMinusNamespace(pages: _pages);
+    _loadMembers();
+  }
+
+  void _loadMembers() async {
+    List<PageInfo> pages = [];
+    try {
+      final url = Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php", {
+        "action": "query",
+        "format": "json",
+        "origin": "*",
+        "list": "categorymembers",
+        "cmprop": "title",
+        "cmtitle": widget.pageInfo.toString(),
+        "cmnamespace": "0|14",
+        "cmlimit": "500"
+      });
+      final response = await http.get(url);
+      if (response.statusCode < 400) {
+        final jsonMap = jsonDecode(response.body) as Map;
+        final jsonPages = jsonMap['query']['categorymembers'] as List<dynamic>;
+        for (final page in jsonPages) {
+          final pagename = page['title'] as String;
+          final namespace = Namespace.fromCode(page['ns'] as int);
+
+          final pageInfo = PageInfo(
+            pagename: pagename,
+            namespace: namespace,
+          );
+          pages.add(pageInfo);
+        }
+      }
+    } catch (e) {
+      debugPrint("$e");
+    }
+    setState(() {
+      _pagesByInitial = _groupPagesByInitialMinusNamespace(pages: pages);
+      _pages = pages;
+    });
   }
 
   String _stripNamespace({required String pagename}) {
@@ -71,13 +101,19 @@ class _CategoryPage extends State<CategoryPage> {
       (index) => String.fromCharCode(index + 65),
     );
 
-    List<PageInfo> pagesStartingWithSymbol = pages.where((PageInfo page) => !alphabet.contains(page.pagename[0].toUpperCase())).toList();
+    List<PageInfo> pagesStartingWithSymbol = pages
+        .where(
+          (PageInfo page) => !alphabet.contains(
+            page.pagename[0].toUpperCase(),
+          ),
+        )
+        .toList();
 
     if (pagesStartingWithSymbol.isNotEmpty) {
       pagesByInitial.add(
         CategorySubsection(
           title: '#',
-          wikiName: widget.wikiName,
+          wikiInfo: widget.wikiInfo,
           isExpanded: true,
           pages: pagesStartingWithSymbol,
         ),
@@ -85,12 +121,20 @@ class _CategoryPage extends State<CategoryPage> {
     }
 
     for (String letter in alphabet) {
-      List<PageInfo> pagesStartingWithLetter =
-          pages.where((PageInfo page) => _stripNamespace(pagename: page.pagename)[0].toUpperCase() == letter).toList();
+      List<PageInfo> pagesStartingWithLetter = pages
+          .where(
+            (PageInfo page) =>
+                _stripNamespace(
+                  pagename: page.pagename,
+                )[0]
+                    .toUpperCase() ==
+                letter,
+          )
+          .toList();
       if (pagesStartingWithLetter.isNotEmpty) {
         pagesByInitial.add(CategorySubsection(
           title: letter,
-          wikiName: widget.wikiName,
+          wikiInfo: widget.wikiInfo,
           isExpanded: true,
           pages: pagesStartingWithLetter,
         ));
@@ -124,27 +168,26 @@ class _CategoryPage extends State<CategoryPage> {
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
-          const TopNavigationBar(),
-          PageHeader(context: context, title: widget.title),
+          TopNavigationBar(
+            wikiInfo: widget.wikiInfo,
+          ),
+          PageHeader(context: context, title: widget.pageInfo.pagename),
           TrendingPages(
             pages: _getTopPages(pages: _pages),
-            wikiName: widget.wikiName,
-            wikiPrefix: widget.wikiPrefix,
+            wikiInfo: widget.wikiInfo,
           ),
           CategoryList(
             subsections: _pagesByInitial,
-            wikiName: widget.wikiName,
-            wikiPrefix: widget.wikiPrefix,
+            wikiInfo: widget.wikiInfo,
             setCategoryExpandedCallback: _setCategoryExpanded,
           ),
           PageFooter(
-            title: widget.title,
-            wikiName: widget.wikiName,
-            wikiPrefix: widget.wikiPrefix,
+            title: widget.pageInfo.pagename,
+            wikiInfo: widget.wikiInfo,
             categories: const [],
           ),
           WikiFooter(
-            wikiName: widget.wikiName,
+            wikiInfo: widget.wikiInfo,
           ),
         ],
       ),

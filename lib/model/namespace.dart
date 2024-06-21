@@ -1,6 +1,6 @@
 enum Namespace {
   main(code: 0, prefix: ''),
-  category(code: 14, prefix: 'Category');
+  category(code: 14, prefix: 'Category:');
 
   final int code;
   final String prefix;
@@ -29,5 +29,10 @@ enum Namespace {
       default:
         return Namespace.main;
     }
+  }
+
+  @override
+  toString() {
+    return prefix;
   }
 }

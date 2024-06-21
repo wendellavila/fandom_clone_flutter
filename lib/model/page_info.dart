@@ -1,8 +1,10 @@
 import 'namespace.dart';
 
 class PageInfo implements Comparable {
-  PageInfo({required this.pagename, this.namespace = Namespace.main});
-  final String pagename;
+  PageInfo({required String pagename, this.namespace = Namespace.main}) {
+    this.pagename = pagename.replaceFirst(namespace.prefix, '');
+  }
+  late String pagename;
   final Namespace namespace;
 
   @override
@@ -12,6 +14,6 @@ class PageInfo implements Comparable {
 
   @override
   String toString() {
-    return "${namespace.prefix}${namespace == Namespace.main ? '' : ':'}$pagename";
+    return "${namespace.prefix}$pagename";
   }
 }
