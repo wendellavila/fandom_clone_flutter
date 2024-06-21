@@ -19,7 +19,7 @@ class ArticlePage extends StatefulWidget {
 
   final PageData pageData = const PageData(
     infobox: InfoboxData(
-      image: "assets/img/user.png",
+      image: null,
       fields: [
         TitleContentPair(title: "Label 1", content: "Content 1"),
       ],

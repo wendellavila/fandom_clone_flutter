@@ -22,7 +22,9 @@ class Infobox extends StatelessWidget {
                 image: DecorationImage(
                   colorFilter: const ColorFilter.linearToSrgbGamma(),
                   fit: BoxFit.cover,
-                  image: AssetImage(pageData.infobox.image),
+                  image: pageData.infobox.image != null
+                      ? NetworkImage(pageData.infobox.image!)
+                      : const AssetImage('assets/img/user.png') as ImageProvider,
                 ),
               ),
               height: 300,
@@ -38,12 +40,13 @@ class Infobox extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                      child: Text(pageData.description),
+                  if (pageData.description != null)
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        child: Text(pageData.description!),
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
