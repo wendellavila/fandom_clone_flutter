@@ -23,7 +23,7 @@ class WikiHomeScreen extends StatefulWidget {
 }
 
 class _WikiHomeScreenState extends State<WikiHomeScreen> {
-  List<PageInfo> _pages = [];
+  List<PageInfo>? _pages;
   List<PageInfo> _categories = [];
 
   @override

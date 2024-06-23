@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fandom_clone/model/wiki_statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -51,24 +52,45 @@ class _WikiBrowserState extends State<WikiBrowser> {
 
   Future<WikiInfo?> _getWikiInfo({required String prefix}) async {
     String wikiUrl = "$prefix.fandom.com";
-    String name = prefix;
-    String logo = 'assets/img/icon.png';
     try {
       final url = Uri.https(wikiUrl, "/api.php", {
         "action": "query",
         "meta": "siteinfo",
+        "siprop": "statistics|general",
         "format": "json",
         "origin": "*",
       });
       final response = await http.get(url);
       if (response.statusCode >= 400) return null;
       final jsonMap = jsonDecode(response.body) as Map;
-      name = jsonMap['query']['general']['sitename'] ?? name;
-      logo = jsonMap['query']['general']['logo'] ?? logo;
+      final name = jsonMap['query']['general']['sitename'] as String;
+      final logo = jsonMap['query']['general']['logo'] as String;
+      final statistics = jsonMap['query']['statistics'] as Map<String, dynamic>;
+
+      final pageCount = statistics['pages'] as int;
+      final articleCount = statistics['articles'] as int;
+      final editCount = statistics['edits'] as int;
+      final imageCount = statistics['images'] as int;
+      final userCount = statistics['users'] as int;
+      final activeUserCount = statistics['activeusers'] as int;
+
+      return WikiInfo(
+        name: name,
+        prefix: prefix,
+        logo: logo,
+        statistics: WikiStatistics(
+          pageCount: pageCount,
+          articleCount: articleCount,
+          editCount: editCount,
+          imageCount: imageCount,
+          userCount: userCount,
+          activeUserCount: activeUserCount,
+        ),
+      );
     } catch (e) {
       debugPrint("$e");
     }
-    return WikiInfo(name: name, prefix: prefix, logo: logo);
+    return null;
   }
 
   @override
