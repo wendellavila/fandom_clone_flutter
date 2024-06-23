@@ -9,7 +9,8 @@ class PageInfo implements Comparable {
 
   @override
   int compareTo(other) {
-    return "${namespace.prefix}:$pagename".compareTo("${other.namespace.prefix}:${other.pagename}");
+    return "${namespace.prefix}:$pagename"
+        .compareTo("${other.namespace.prefix}:${other.pagename}");
   }
 
   @override

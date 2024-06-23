@@ -1,7 +1,7 @@
 import 'package:fandom_clone/model/wiki_info.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:fandom_clone/ui/screens/fandom_home/fandom_home_screen.dart';
 
 class WikiFooter extends StatelessWidget {
   const WikiFooter({this.wikiInfo, super.key});
@@ -20,9 +20,12 @@ class WikiFooter extends StatelessWidget {
             child: Column(
               children: [
                 TextButton(
-                  onPressed: () async {
-                    await launchUrl(Uri.parse('https://fandom.com'));
-                  },
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FandomHomeScreen(),
+                    ),
+                  ),
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
@@ -52,7 +55,9 @@ class WikiFooter extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
-              wikiInfo != null ? "${wikiInfo!.name} is a FANDOM Community." : 'Copyright 2024',
+              wikiInfo != null
+                  ? "${wikiInfo!.name} is a FANDOM Community."
+                  : 'Copyright 2024',
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,

@@ -4,8 +4,8 @@ import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:fandom_clone/config/theme_data.dart';
 
-class FandomHomePage extends StatelessWidget {
-  const FandomHomePage({super.key});
+class FandomHomeScreen extends StatelessWidget {
+  const FandomHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

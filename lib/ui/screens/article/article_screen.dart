@@ -12,7 +12,7 @@ import 'package:fandom_clone/ui/widgets/topbar.dart';
 import 'infobox.dart';
 import 'page_header.dart';
 
-class ArticlePage extends StatefulWidget {
+class ArticleScreen extends StatefulWidget {
   final PageInfo pageInfo;
   final WikiInfo wikiInfo;
   late final List<SectionData> sections;
@@ -30,7 +30,7 @@ class ArticlePage extends StatefulWidget {
     ],
   );
 
-  ArticlePage({
+  ArticleScreen({
     required this.pageInfo,
     required this.wikiInfo,
     super.key,
@@ -43,10 +43,10 @@ class ArticlePage extends StatefulWidget {
         .toList();
   }
   @override
-  State<ArticlePage> createState() => _ArticlePage();
+  State<ArticleScreen> createState() => _ArticleScreen();
 }
 
-class _ArticlePage extends State<ArticlePage> {
+class _ArticleScreen extends State<ArticleScreen> {
   void _setSectionExpanded({required int index, required bool isExpanded}) {
     setState(() {
       widget.sections[index].isExpanded = isExpanded;

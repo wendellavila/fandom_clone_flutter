@@ -1,9 +1,11 @@
-import 'package:fandom_clone/model/wiki_info.dart';
-import 'package:fandom_clone/ui/screens/article/article_screen.dart';
-import 'package:fandom_clone/ui/screens/category/category_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fandom_clone/model/namespace.dart';
+import 'package:fandom_clone/model/category_subsection.dart';
+import 'package:fandom_clone/model/wiki_info.dart';
+
+import 'package:fandom_clone/ui/screens/article/article_screen.dart';
+import 'package:fandom_clone/ui/screens/category/category_screen.dart';
 
 class CategoryList extends StatelessWidget {
   const CategoryList({
@@ -20,7 +22,8 @@ class CategoryList extends StatelessWidget {
     required bool isExpanded,
   }) setCategoryExpandedCallback;
 
-  int get pagecount => subsections.length;
+  int get pagecount =>
+      subsections.fold(0, (value, element) => value + element.pages.length);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +42,8 @@ class CategoryList extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Theme(
-                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                data: Theme.of(context)
+                    .copyWith(dividerColor: Colors.transparent),
                 child: ExpansionPanelList(
                   elevation: 0,
                   expandedHeaderPadding: EdgeInsets.zero,
@@ -52,7 +56,9 @@ class CategoryList extends StatelessWidget {
                     );
                   },
                   children: [
-                    for (int panelIndex = 0; panelIndex < subsections.length; panelIndex++)
+                    for (int panelIndex = 0;
+                        panelIndex < subsections.length;
+                        panelIndex++)
                       ExpansionPanel(
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         isExpanded: subsections[panelIndex].isExpanded,
@@ -74,32 +80,37 @@ class CategoryList extends StatelessWidget {
                                   (page) => Align(
                                     alignment: Alignment.topLeft,
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8),
                                       child: TextButton(
                                         style: TextButton.styleFrom(
                                           padding: const EdgeInsets.symmetric(
                                             horizontal: 4,
                                             vertical: 10,
                                           ),
-                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                          tapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
                                           alignment: Alignment.centerLeft,
                                           minimumSize: Size.zero,
                                           shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.zero),
+                                            borderRadius:
+                                                BorderRadius.all(Radius.zero),
                                           ),
                                         ),
                                         onPressed: () => Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => page.namespace == Namespace.category
-                                                ? CategoryPage(
-                                                    pageInfo: page,
-                                                    wikiInfo: wikiInfo,
-                                                  )
-                                                : ArticlePage(
-                                                    pageInfo: page,
-                                                    wikiInfo: wikiInfo,
-                                                  ),
+                                            builder: (context) =>
+                                                page.namespace ==
+                                                        Namespace.category
+                                                    ? CategoryScreen(
+                                                        pageInfo: page,
+                                                        wikiInfo: wikiInfo,
+                                                      )
+                                                    : ArticleScreen(
+                                                        pageInfo: page,
+                                                        wikiInfo: wikiInfo,
+                                                      ),
                                           ),
                                         ),
                                         child: Padding(
@@ -121,7 +132,9 @@ class CategoryList extends StatelessWidget {
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(
                                                   fontSize: 16,
-                                                  color: Theme.of(context).colorScheme.onSecondary,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onSecondary,
                                                 ),
                                               )
                                             ],

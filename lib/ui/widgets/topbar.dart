@@ -23,8 +23,9 @@ class TopNavigationBar extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) => SliverAppBar(
         automaticallyImplyLeading: false,
-        backgroundColor:
-            ref.read(themeNotifier).isThemeLight ? Theme.of(context).colorScheme.fandomYellow : Theme.of(context).colorScheme.fandomPurple,
+        backgroundColor: ref.read(themeNotifier).isThemeLight
+            ? Theme.of(context).colorScheme.fandomYellow
+            : Theme.of(context).colorScheme.fandomPurple,
         pinned: true,
         toolbarHeight: _height,
         expandedHeight: _height * (wikiInfo != null ? 2 : 1),
@@ -42,7 +43,7 @@ class TopNavigationBar extends StatelessWidget {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const FandomHomePage(),
+              builder: (context) => const FandomHomeScreen(),
             ),
           ),
           style: ButtonStyle(
@@ -57,8 +58,9 @@ class TopNavigationBar extends StatelessWidget {
             text: TextSpan(
               text: 'Fand',
               style: TextStyle(
-                  color:
-                      ref.read(themeNotifier).isThemeLight ? Theme.of(context).colorScheme.fandomPurple : Theme.of(context).colorScheme.fandomYellow,
+                  color: ref.read(themeNotifier).isThemeLight
+                      ? Theme.of(context).colorScheme.fandomPurple
+                      : Theme.of(context).colorScheme.fandomYellow,
                   fontFamily: GoogleFonts.russoOne().fontFamily,
                   fontSize: 22),
               children: [
@@ -90,8 +92,9 @@ class TopNavigationBar extends StatelessWidget {
                 icon: Icon(
                   Icons.search_outlined,
                   size: 22,
-                  color:
-                      ref.watch(themeNotifier).isThemeLight ? Theme.of(context).colorScheme.fandomPurple : Theme.of(context).colorScheme.fandomYellow,
+                  color: ref.watch(themeNotifier).isThemeLight
+                      ? Theme.of(context).colorScheme.fandomPurple
+                      : Theme.of(context).colorScheme.fandomYellow,
                 ),
                 onPressed: () {}),
           IconButton(
@@ -109,8 +112,9 @@ class TopNavigationBar extends StatelessWidget {
               icon: Icon(
                 Icons.notifications_outlined,
                 size: 22,
-                color:
-                    ref.watch(themeNotifier).isThemeLight ? Theme.of(context).colorScheme.fandomPurple : Theme.of(context).colorScheme.fandomYellow,
+                color: ref.watch(themeNotifier).isThemeLight
+                    ? Theme.of(context).colorScheme.fandomPurple
+                    : Theme.of(context).colorScheme.fandomYellow,
               ),
               onPressed: () {}),
           IconButton(
@@ -127,8 +131,9 @@ class TopNavigationBar extends StatelessWidget {
                 : Theme.of(context).colorScheme.fandomYellowTranslucent,
             icon: CircleAvatar(
               radius: 10,
-              backgroundColor:
-                  ref.watch(themeNotifier).isThemeLight ? Theme.of(context).colorScheme.fandomPurple : Theme.of(context).colorScheme.fandomYellow,
+              backgroundColor: ref.watch(themeNotifier).isThemeLight
+                  ? Theme.of(context).colorScheme.fandomPurple
+                  : Theme.of(context).colorScheme.fandomYellow,
               child: Padding(
                 padding: const EdgeInsets.all(2),
                 child: ClipOval(
@@ -164,7 +169,7 @@ class BottomBar extends StatelessWidget {
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ArticlePage(
+            builder: (context) => ArticleScreen(
               pageInfo: PageInfo(pagename: 'Main Page'),
               wikiInfo: wikiInfo,
             ),
@@ -238,7 +243,8 @@ class BottomBar extends StatelessWidget {
                         "Main Page",
                         style: TextStyle(
                           fontSize: 14,
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
                       )
                     ],
@@ -249,7 +255,9 @@ class BottomBar extends StatelessWidget {
                   child: Row(
                     children: [
                       Icon(
-                        ref.watch(themeNotifier).isThemeLight ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
+                        ref.watch(themeNotifier).isThemeLight
+                            ? Icons.dark_mode_outlined
+                            : Icons.light_mode_outlined,
                         size: 16,
                         color: Theme.of(context).colorScheme.onPrimaryContainer,
                       ),
@@ -260,7 +268,8 @@ class BottomBar extends StatelessWidget {
                         "${ref.watch(themeNotifier).isThemeLight ? "Dark" : "Light"} Theme",
                         style: TextStyle(
                           fontSize: 14,
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
                       )
                     ],

@@ -1,47 +1,37 @@
+import 'dart:convert';
+import 'dart:math';
+import 'package:flutter/material.dart';
+
+import 'package:http/http.dart' as http;
+
 import 'package:fandom_clone/model/wiki_info.dart';
+import 'package:fandom_clone/model/page_info.dart';
+import 'package:fandom_clone/model/namespace.dart';
+import 'package:fandom_clone/model/category_subsection.dart';
+
 import 'package:fandom_clone/ui/screens/category/category_list.dart';
 import 'package:fandom_clone/ui/widgets/page_footer.dart';
 import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
-import 'package:flutter/material.dart';
-
 import 'package:fandom_clone/ui/widgets/topbar.dart';
+import 'package:fandom_clone/ui/widgets/trending_pages.dart';
 
-import 'package:fandom_clone/model/namespace.dart';
 import 'page_header.dart';
-import 'trending_pages.dart';
-import 'package:fandom_clone/model/page_info.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-class CategorySubsection {
-  final String title;
-  final WikiInfo wikiInfo;
-  bool isExpanded;
-  final List<PageInfo> pages;
-
-  CategorySubsection({
-    required this.title,
-    required this.wikiInfo,
-    this.isExpanded = false,
-    required this.pages,
-  });
-}
-
-class CategoryPage extends StatefulWidget {
+class CategoryScreen extends StatefulWidget {
   final PageInfo pageInfo;
   final WikiInfo wikiInfo;
 
-  const CategoryPage({
+  const CategoryScreen({
     required this.pageInfo,
     required this.wikiInfo,
     super.key,
   });
 
   @override
-  State<CategoryPage> createState() => _CategoryPage();
+  State<CategoryScreen> createState() => _CategoryScreen();
 }
 
-class _CategoryPage extends State<CategoryPage> {
+class _CategoryScreen extends State<CategoryScreen> {
   List<PageInfo> _pages = [];
   List<CategorySubsection> _pagesByInitial = [];
 
@@ -54,7 +44,8 @@ class _CategoryPage extends State<CategoryPage> {
   void _loadMembers() async {
     List<PageInfo> pages = [];
     try {
-      final url = Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php", {
+      final url =
+          Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php", {
         "action": "query",
         "format": "json",
         "origin": "*",
@@ -93,7 +84,8 @@ class _CategoryPage extends State<CategoryPage> {
     return pagename.replaceFirst(namespaceRegex, '');
   }
 
-  List<CategorySubsection> _groupPagesByInitialMinusNamespace({required List<PageInfo> pages}) {
+  List<CategorySubsection> _groupPagesByInitialMinusNamespace(
+      {required List<PageInfo> pages}) {
     final List<CategorySubsection> pagesByInitial = [];
 
     final List<String> alphabet = List.generate(
@@ -143,17 +135,16 @@ class _CategoryPage extends State<CategoryPage> {
     return pagesByInitial;
   }
 
-  List<PageInfo> _getTopPages({required List<PageInfo> pages}) {
-    pages = pages
-        .where((page) => page.namespace == Namespace.main)
-        .map((page) => PageInfo(
-              pagename: _stripNamespace(pagename: page.pagename),
-              namespace: page.namespace,
-            ))
-        .toList();
-    pages.sort();
+  List<PageInfo> _getRandomSublist(
+      {required List<PageInfo> pages, required int length}) {
+    final List<PageInfo> sublist = [];
+    Random random = Random();
 
-    return pages.length > 6 ? pages.sublist(1, 7) : pages;
+    for (int i = 0; i < min(length, pages.length); i++) {
+      final randomIndex = random.nextInt(pages.length);
+      sublist.add(pages[randomIndex]);
+    }
+    return sublist;
   }
 
   void _setCategoryExpanded({required int index, required bool isExpanded}) {
@@ -173,7 +164,13 @@ class _CategoryPage extends State<CategoryPage> {
           ),
           PageHeader(context: context, title: widget.pageInfo.pagename),
           TrendingPages(
-            pages: _getTopPages(pages: _pages),
+            pages: _getRandomSublist(
+                pages: _pages
+                    .where(
+                      (page) => page.namespace == Namespace.main,
+                    )
+                    .toList(),
+                length: 6),
             wikiInfo: widget.wikiInfo,
           ),
           CategoryList(

@@ -1,9 +1,7 @@
 import 'package:fandom_clone/config/theme_data.dart';
-import 'package:fandom_clone/model/namespace.dart';
-import 'package:fandom_clone/model/page_info.dart';
 import 'package:fandom_clone/model/wiki_info.dart';
-import 'package:fandom_clone/ui/screens/category/category_screen.dart';
-import 'package:fandom_clone/ui/screens/fandom_home/suggestions.dart';
+import 'package:fandom_clone/ui/screens/fandom_home/wiki_suggestions.dart';
+import 'package:fandom_clone/ui/screens/wiki_home.dart/wiki_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -135,7 +133,8 @@ class _WikiBrowserState extends State<WikiBrowser> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                    disabledBackgroundColor: const Color.fromARGB(100, 82, 0, 68),
+                    disabledBackgroundColor:
+                        const Color.fromARGB(100, 82, 0, 68),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -150,11 +149,7 @@ class _WikiBrowserState extends State<WikiBrowser> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => CategoryPage(
-                                      pageInfo: PageInfo(
-                                        pagename: 'Category:${value.name}',
-                                        namespace: Namespace.category,
-                                      ),
+                                    builder: (context) => WikiHomeScreen(
                                       wikiInfo: value,
                                     ),
                                   ),
@@ -198,7 +193,7 @@ class _WikiBrowserState extends State<WikiBrowser> {
             ),
           ),
         ),
-        Suggestions(
+        WikiSuggestions(
           suggestions: suggestions,
         ),
       ],

@@ -30,7 +30,7 @@ class _AppState extends ConsumerState<App> {
       theme: themeData(context: context, themeMode: ThemeMode.light),
       darkTheme: themeData(context: context, themeMode: ThemeMode.dark),
       themeMode: ref.watch(themeNotifier).theme,
-      home: const FandomHomePage(),
+      home: const FandomHomeScreen(),
     );
   }
 }

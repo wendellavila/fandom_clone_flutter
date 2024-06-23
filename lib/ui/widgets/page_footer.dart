@@ -68,7 +68,8 @@ class PageFooter extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -88,10 +89,12 @@ class PageFooter extends StatelessWidget {
                                 Positioned(
                                   right: i * 12,
                                   child: CircleAvatar(
-                                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.secondary,
                                     radius: 10,
                                     child: const CircleAvatar(
-                                      backgroundImage: AssetImage('img/user.png'),
+                                      backgroundImage:
+                                          AssetImage('img/user.png'),
                                       radius: 9,
                                     ),
                                   ),
@@ -170,15 +173,21 @@ class PageFooter extends StatelessWidget {
                                 child: Text(
                                   page.toString(),
                                   style: TextStyle(
-                                    color: Theme.of(context).colorScheme.tertiary,
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
                                   ),
                                 ),
                                 onPressed: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => page.namespace == Namespace.category
-                                        ? CategoryPage(pageInfo: page, wikiInfo: wikiInfo)
-                                        : ArticlePage(pageInfo: page, wikiInfo: wikiInfo),
+                                    builder: (context) =>
+                                        page.namespace == Namespace.category
+                                            ? CategoryScreen(
+                                                pageInfo: page,
+                                                wikiInfo: wikiInfo)
+                                            : ArticleScreen(
+                                                pageInfo: page,
+                                                wikiInfo: wikiInfo),
                                   ),
                                 ),
                               ))
@@ -187,7 +196,8 @@ class PageFooter extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 12, bottom: 14, right: 8),
+                  padding: const EdgeInsets.only(
+                      left: 8, top: 12, bottom: 14, right: 8),
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
