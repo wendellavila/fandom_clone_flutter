@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+
+import 'package:fandom_clone/config/theme_data.dart';
+
 import 'package:fandom_clone/ui/screens/fandom_home/wiki_browser.dart';
 import 'package:fandom_clone/ui/widgets/topbar.dart';
 import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
-import 'package:flutter/material.dart';
-import 'package:fandom_clone/config/theme_data.dart';
 
 class FandomHomeScreen extends StatelessWidget {
   const FandomHomeScreen({super.key});

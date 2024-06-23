@@ -1,13 +1,15 @@
+import 'package:flutter/material.dart';
+
+import 'package:google_fonts/google_fonts.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fandom_clone/providers/theme_notifier.dart';
 import 'package:fandom_clone/config/theme_data.dart';
 import 'package:fandom_clone/model/page_info.dart';
 import 'package:fandom_clone/model/wiki_info.dart';
 import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:fandom_clone/ui/screens/fandom_home/fandom_home_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fandom_clone/providers/theme_notifier.dart';
 
 const double _height = 40.0;
 

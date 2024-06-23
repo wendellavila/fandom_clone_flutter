@@ -4,10 +4,12 @@ class PageHeader extends StatelessWidget {
   const PageHeader({
     super.key,
     required this.title,
+    this.description,
     required this.context,
   });
 
   final String title;
+  final String? description;
   final BuildContext context;
 
   @override
@@ -64,16 +66,17 @@ class PageHeader extends StatelessWidget {
                 ),
               ),
             ),
-            const Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rhoncus tempus cursus. Vivamus ultricies mi a dapibus accumsan. Cras in placerat ante. Ut lectus mauris, vehicula vehicula dui in, semper malesuada est. Quisque vel vulputate quam.",
-                    textAlign: TextAlign.start,
+            if (description != null)
+              Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      description!,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ],
         ),
       ),

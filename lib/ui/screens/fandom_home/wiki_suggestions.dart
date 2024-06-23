@@ -1,8 +1,9 @@
-import 'package:fandom_clone/ui/screens/wiki_home.dart/wiki_home_screen.dart';
-import 'package:fandom_clone/ui/widgets/loading.dart';
 import 'package:flutter/material.dart';
+
 import 'package:fandom_clone/model/wiki_info.dart';
 import 'package:fandom_clone/config/theme_data.dart';
+import 'package:fandom_clone/ui/screens/wiki_home.dart/wiki_home_screen.dart';
+import 'package:fandom_clone/ui/widgets/loading.dart';
 
 class WikiSuggestions extends StatelessWidget {
   const WikiSuggestions({required this.suggestions, super.key});

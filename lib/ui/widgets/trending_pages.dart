@@ -1,10 +1,10 @@
+import 'package:flutter/material.dart';
+
+import 'package:fandom_clone/model/page_info.dart';
+import 'package:fandom_clone/model/namespace.dart';
 import 'package:fandom_clone/model/wiki_info.dart';
 import 'package:fandom_clone/ui/screens/article/article_screen.dart';
 import 'package:fandom_clone/ui/widgets/loading.dart';
-import 'package:flutter/material.dart';
-import 'package:fandom_clone/model/page_info.dart';
-
-import 'package:fandom_clone/model/namespace.dart';
 
 class TrendingPages extends StatelessWidget {
   const TrendingPages({

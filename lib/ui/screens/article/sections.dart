@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:fandom_clone/model/section_data.dart';
 
 class SectionList extends StatelessWidget {
@@ -31,7 +32,9 @@ class SectionList extends StatelessWidget {
               );
             },
             children: [
-              for (int panelIndex = 0; panelIndex < sections.length; panelIndex++)
+              for (int panelIndex = 0;
+                  panelIndex < sections.length;
+                  panelIndex++)
                 ExpansionPanel(
                   isExpanded: sections[panelIndex].isExpanded,
                   backgroundColor: Theme.of(context).colorScheme.surface,

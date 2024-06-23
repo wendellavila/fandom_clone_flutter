@@ -1,6 +1,8 @@
-import 'package:fandom_clone/model/wiki_info.dart';
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:fandom_clone/model/wiki_info.dart';
 import 'package:fandom_clone/ui/screens/fandom_home/fandom_home_screen.dart';
 
 class WikiFooter extends StatelessWidget {

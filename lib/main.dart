@@ -1,9 +1,9 @@
-import 'package:fandom_clone/ui/screens/fandom_home/fandom_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fandom_clone/providers/theme_notifier.dart';
 import 'package:fandom_clone/config/theme_data.dart';
+import 'package:fandom_clone/ui/screens/fandom_home/fandom_home_screen.dart';
 
 void main() {
   runApp(
