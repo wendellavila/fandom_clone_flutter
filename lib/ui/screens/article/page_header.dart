@@ -10,59 +10,57 @@ class PageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Text(
-              pagename,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: [
+          Text(
+            pagename,
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: () {},
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 2),
+                      child: Icon(
+                        Icons.edit_outlined,
+                        size: 14,
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                    ),
+                    Text(
+                      "EDIT",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () {},
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 2),
-                        child: Icon(
-                          Icons.edit_outlined,
-                          size: 14,
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        ),
-                      ),
-                      Text(
-                        "EDIT",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
+              IconButton(
+                visualDensity: VisualDensity.compact,
+                splashRadius: 20,
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.more_vert,
+                  size: 18,
                 ),
-                IconButton(
-                  visualDensity: VisualDensity.compact,
-                  splashRadius: 20,
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.more_vert,
-                    size: 18,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -35,203 +35,191 @@ class PageFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Column(
-        children: [
-          ClipPath(
-            clipper: TriangleClipper(),
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceBright,
-              ),
+    return Column(
+      children: [
+        ClipPath(
+          clipper: TriangleClipper(),
+          child: Container(
+            height: 40,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceBright,
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Theme.of(context).colorScheme.surfaceBright,
-                  Theme.of(context).colorScheme.surface,
-                ],
-              ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Theme.of(context).colorScheme.surfaceBright,
+                Theme.of(context).colorScheme.surface,
+              ],
             ),
-            child: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'MORE INFORMATION',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+          ),
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  'MORE INFORMATION',
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Top Contributors',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Top Contributors',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Expanded(
-                        child: SizedBox(
-                          height: 20,
-                          child: Stack(
-                            children: [
-                              for (var i = 0; i < 3; i++)
-                                Positioned(
-                                  right: i * 12,
-                                  child: CircleAvatar(
-                                    backgroundColor:
-                                        Theme.of(context).colorScheme.secondary,
-                                    radius: 10,
-                                    child: const CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage('img/user.png'),
-                                      radius: 9,
-                                    ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        height: 20,
+                        child: Stack(
+                          children: [
+                            for (var i = 0; i < 3; i++)
+                              Positioned(
+                                right: i * 12,
+                                child: CircleAvatar(
+                                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                                  radius: 10,
+                                  child: const CircleAvatar(
+                                    backgroundImage: AssetImage('img/user.png'),
+                                    radius: 9,
                                   ),
                                 ),
-                            ],
+                              ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              ExpansionTile(
+                tilePadding: const EdgeInsets.only(
+                  left: 16,
+                  right: 12,
+                  top: 4,
+                  bottom: 4,
+                ),
+                dense: true,
+                minTileHeight: 0,
+                backgroundColor: Colors.transparent,
+                title: Text(
+                  'Comments (0)',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                children: [
+                  SizedBox(
+                    height: 200,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          child: Text(
+                            'No Comments Yet',
+                            style: TextStyle(fontSize: 18),
                           ),
+                        ),
+                        Text(
+                          'Be the first to comment on $title!',
+                          style: const TextStyle(fontSize: 12),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              ExpansionTile(
+                tilePadding: const EdgeInsets.only(
+                  left: 16,
+                  right: 12,
+                  top: 4,
+                  bottom: 4,
+                ),
+                dense: true,
+                minTileHeight: 0,
+                backgroundColor: Colors.transparent,
+                title: Text(
+                  'Categories',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                children: [
+                  Wrap(
+                    runAlignment: WrapAlignment.start,
+                    children: categories
+                        .map((page) => TextButton(
+                              child: Text(
+                                page.toString(),
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                              ),
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => page.namespace == Namespace.category
+                                      ? CategoryScreen(pageInfo: page, wikiInfo: wikiInfo)
+                                      : ArticleScreen(pageInfo: page, wikiInfo: wikiInfo),
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8, top: 12, bottom: 14, right: 8),
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: 'Community content is available under ',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: 'CC-BY-SA',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const TextSpan(
+                        text: ' unless otherwise noted.',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
                         ),
                       )
                     ],
                   ),
                 ),
-                ExpansionTile(
-                  tilePadding: const EdgeInsets.only(
-                    left: 16,
-                    right: 12,
-                    top: 4,
-                    bottom: 4,
-                  ),
-                  dense: true,
-                  minTileHeight: 0,
-                  backgroundColor: Colors.transparent,
-                  title: Text(
-                    'Comments (0)',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                  children: [
-                    SizedBox(
-                      height: 200,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12),
-                            child: Text(
-                              'No Comments Yet',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ),
-                          Text(
-                            'Be the first to comment on $title!',
-                            style: const TextStyle(fontSize: 12),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                ExpansionTile(
-                  tilePadding: const EdgeInsets.only(
-                    left: 16,
-                    right: 12,
-                    top: 4,
-                    bottom: 4,
-                  ),
-                  dense: true,
-                  minTileHeight: 0,
-                  backgroundColor: Colors.transparent,
-                  title: Text(
-                    'Categories',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                  children: [
-                    Wrap(
-                      runAlignment: WrapAlignment.start,
-                      children: categories
-                          .map((page) => TextButton(
-                                child: Text(
-                                  page.toString(),
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary,
-                                  ),
-                                ),
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        page.namespace == Namespace.category
-                                            ? CategoryScreen(
-                                                pageInfo: page,
-                                                wikiInfo: wikiInfo)
-                                            : ArticleScreen(
-                                                pageInfo: page,
-                                                wikiInfo: wikiInfo),
-                                  ),
-                                ),
-                              ))
-                          .toList(),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8, top: 12, bottom: 14, right: 8),
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      text: 'Community content is available under ',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: 'CC-BY-SA',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.tertiary,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const TextSpan(
-                          text: ' unless otherwise noted.',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

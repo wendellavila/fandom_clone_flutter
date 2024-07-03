@@ -8,9 +8,10 @@ import 'package:fandom_clone/ui/widgets/trending_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:fandom_clone/model/wiki_info.dart';
 
-import 'package:fandom_clone/ui/screens/wiki_home.dart/wiki_stats.dart';
+import 'package:fandom_clone/ui/screens/wiki_home/wiki_stats.dart';
 import 'package:fandom_clone/ui/widgets/topbar.dart';
 import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
+import 'package:fandom_clone/ui/widgets/scroll_fit.dart';
 
 class WikiHomeScreen extends StatefulWidget {
   WikiHomeScreen({required this.wikiInfo, super.key});
@@ -37,8 +38,7 @@ class _WikiHomeScreenState extends State<WikiHomeScreen> {
     List<PageInfo> categories = [];
 
     try {
-      final url =
-          Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php", {
+      final url = Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php", {
         "action": "parse",
         "format": "json",
         "page": widget.pageInfo.pagename,
@@ -68,15 +68,8 @@ class _WikiHomeScreenState extends State<WikiHomeScreen> {
     List<PageInfo> pages = [];
 
     try {
-      final url =
-          Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php", {
-        "action": "query",
-        "format": "json",
-        "origin": "*",
-        "list": "random",
-        "rnnamespace": "0",
-        "rnlimit": "6"
-      });
+      final url = Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php",
+          {"action": "query", "format": "json", "origin": "*", "list": "random", "rnnamespace": "0", "rnlimit": "6"});
       final response = await http.get(url);
       if (response.statusCode < 400) {
         final jsonMap = jsonDecode(response.body) as Map;
@@ -97,29 +90,29 @@ class _WikiHomeScreenState extends State<WikiHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        slivers: [
-          TopNavigationBar(
-            wikiInfo: widget.wikiInfo,
-          ),
-          WikiStats(wikiInfo: widget.wikiInfo),
-          SliverPadding(
-            padding: const EdgeInsets.only(bottom: 40),
-            sliver: TrendingPages(
+      body: ScrollOrFit(
+        topContent: const TopNavigationBar(),
+        scrollableContent: Column(
+          children: [
+            WikiStats(wikiInfo: widget.wikiInfo),
+            TrendingPages(
               wikiInfo: widget.wikiInfo,
               pages: _pages,
             ),
-          ),
-          PageFooter(
-            title: widget.pageInfo.pagename,
-            categories: _categories,
-            wikiInfo: widget.wikiInfo,
-          ),
-          WikiFooter(
-            wikiInfo: widget.wikiInfo,
-          ),
-        ],
+          ],
+        ),
+        bottomContent: Column(
+          children: [
+            PageFooter(
+              title: widget.pageInfo.pagename,
+              categories: _categories,
+              wikiInfo: widget.wikiInfo,
+            ),
+            WikiFooter(
+              wikiInfo: widget.wikiInfo,
+            ),
+          ],
+        ),
       ),
     );
   }

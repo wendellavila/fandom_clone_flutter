@@ -1,3 +1,4 @@
+import 'package:fandom_clone/ui/widgets/scroll_fit.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fandom_clone/config/theme_data.dart';
@@ -12,37 +13,32 @@ class FandomHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        slivers: [
-          const TopNavigationBar(),
-          SliverFillRemaining(
-            child: Theme(
-              data: ThemeData(
-                textSelectionTheme: const TextSelectionThemeData(
-                  cursorColor: Colors.white,
-                ),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Theme.of(context).colorScheme.fandomPink,
-                      Theme.of(context).colorScheme.fandomPurple,
-                    ],
-                  ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 28),
-                  child: WikiBrowser(),
-                ),
-              ),
+      body: ScrollOrFit(
+        topContent: const TopNavigationBar(),
+        scrollableContent: Theme(
+          data: ThemeData(
+            textSelectionTheme: const TextSelectionThemeData(
+              cursorColor: Colors.white,
             ),
           ),
-          const WikiFooter(),
-        ],
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Theme.of(context).colorScheme.fandomPink,
+                  Theme.of(context).colorScheme.fandomPurple,
+                ],
+              ),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 28),
+              child: WikiBrowser(),
+            ),
+          ),
+        ),
+        bottomContent: const WikiFooter(),
       ),
     );
   }

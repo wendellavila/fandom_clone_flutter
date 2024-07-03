@@ -14,6 +14,7 @@ import 'package:fandom_clone/ui/widgets/page_footer.dart';
 import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
 import 'package:fandom_clone/ui/widgets/topbar.dart';
 import 'package:fandom_clone/ui/widgets/trending_pages.dart';
+import 'package:fandom_clone/ui/widgets/scroll_fit.dart';
 
 import 'page_header.dart';
 
@@ -44,8 +45,7 @@ class _CategoryScreen extends State<CategoryScreen> {
   void _loadMembers() async {
     List<PageInfo> pages = [];
     try {
-      final url =
-          Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php", {
+      final url = Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php", {
         "action": "query",
         "format": "json",
         "origin": "*",
@@ -84,8 +84,7 @@ class _CategoryScreen extends State<CategoryScreen> {
     return pagename.replaceFirst(namespaceRegex, '');
   }
 
-  List<CategorySubsection> _groupPagesByInitialMinusNamespace(
-      {required List<PageInfo> pages}) {
+  List<CategorySubsection> _groupPagesByInitialMinusNamespace({required List<PageInfo> pages}) {
     final List<CategorySubsection> pagesByInitial = [];
 
     final List<String> alphabet = List.generate(
@@ -135,8 +134,7 @@ class _CategoryScreen extends State<CategoryScreen> {
     return pagesByInitial;
   }
 
-  List<PageInfo> _getRandomSublist(
-      {required List<PageInfo> pages, required int length}) {
+  List<PageInfo> _getRandomSublist({required List<PageInfo> pages, required int length}) {
     final List<PageInfo> sublist = [];
     Random random = Random();
 
@@ -156,37 +154,43 @@ class _CategoryScreen extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        slivers: [
-          TopNavigationBar(
-            wikiInfo: widget.wikiInfo,
-          ),
-          PageHeader(context: context, title: widget.pageInfo.pagename),
-          TrendingPages(
-            pages: _getRandomSublist(
-                pages: _pages
-                    .where(
-                      (page) => page.namespace == Namespace.main,
-                    )
-                    .toList(),
-                length: 6),
-            wikiInfo: widget.wikiInfo,
-          ),
-          CategoryList(
-            subsections: _pagesByInitial,
-            wikiInfo: widget.wikiInfo,
-            setCategoryExpandedCallback: _setCategoryExpanded,
-          ),
-          PageFooter(
-            title: widget.pageInfo.pagename,
-            wikiInfo: widget.wikiInfo,
-            categories: const [],
-          ),
-          WikiFooter(
-            wikiInfo: widget.wikiInfo,
-          ),
-        ],
+      body: ScrollOrFit(
+        topContent: const TopNavigationBar(),
+        scrollableContent: Column(
+          children: [
+            PageHeader(
+              context: context,
+              title: widget.pageInfo.pagename,
+            ),
+            TrendingPages(
+              pages: _getRandomSublist(
+                  pages: _pages
+                      .where(
+                        (page) => page.namespace == Namespace.main,
+                      )
+                      .toList(),
+                  length: 6),
+              wikiInfo: widget.wikiInfo,
+            ),
+            CategoryList(
+              subsections: _pagesByInitial,
+              wikiInfo: widget.wikiInfo,
+              setCategoryExpandedCallback: _setCategoryExpanded,
+            ),
+          ],
+        ),
+        bottomContent: Column(
+          children: [
+            PageFooter(
+              title: widget.pageInfo.pagename,
+              wikiInfo: widget.wikiInfo,
+              categories: const [],
+            ),
+            WikiFooter(
+              wikiInfo: widget.wikiInfo,
+            ),
+          ],
+        ),
       ),
     );
   }

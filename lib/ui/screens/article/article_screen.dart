@@ -1,3 +1,4 @@
+import 'package:fandom_clone/model/title_content_pair.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,8 +9,8 @@ import 'package:fandom_clone/ui/widgets/topbar.dart';
 
 import 'package:fandom_clone/model/page_data.dart';
 import 'package:fandom_clone/model/page_info.dart';
-import 'package:fandom_clone/model/section_data.dart';
 import 'package:fandom_clone/model/wiki_info.dart';
+import 'package:fandom_clone/ui/widgets/scroll_fit.dart';
 
 import 'infobox.dart';
 import 'page_header.dart';
@@ -29,7 +30,7 @@ class ArticleScreen extends StatefulWidget {
 
 class _ArticleScreen extends State<ArticleScreen> {
   PageData? pageData;
-  List<SectionData> sections = [];
+  List<TitleContentPair>? sections;
 
   @override
   void initState() {
@@ -39,22 +40,35 @@ class _ArticleScreen extends State<ArticleScreen> {
 
   void _loadContent() async {
     try {
-      final url = Uri.https(widget.wikiInfo.url, "/api.php", {
+      final htmlUrl = Uri.https(widget.wikiInfo.url, "/api.php", {
         "action": "parse",
         "format": "json",
         "origin": "*",
         "page": widget.pageInfo.toString(),
       });
-      final response = await http.get(url);
-      if (response.statusCode < 400) {
-        pageData = PageData.fromJson(response.body);
+      final wikitextUrl = Uri.https(widget.wikiInfo.url, "/api.php", {
+        "action": "query",
+        "prop": "revisions",
+        "rvprop": "content",
+        "titles": widget.pageInfo.toString(),
+        "rvslots": "main",
+        "format": "json",
+        "origin": "*",
+      });
+      final htmlResponse = await http.get(htmlUrl);
+      final wikitextResponse = await http.get(wikitextUrl);
+      if (htmlResponse.statusCode < 400) {
+        pageData = PageData.parse(
+          pagename: widget.pageInfo.toString(),
+          htmlResponse: htmlResponse.body,
+          wikitextResponse: wikitextResponse.body,
+        );
         sections = pageData != null
             ? pageData!.sections
                 .map(
-                  (section) => SectionData(
+                  (section) => TitleContentPair(
                     title: section.title,
                     content: section.content,
-                    isExpanded: true,
                   ),
                 )
                 .toList()
@@ -66,42 +80,47 @@ class _ArticleScreen extends State<ArticleScreen> {
     setState(() {});
   }
 
-  void _setSectionExpanded({required int index, required bool isExpanded}) {
-    setState(() {
-      sections[index].isExpanded = isExpanded;
-      sections[index].isExpanded = isExpanded;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        slivers: [
-          TopNavigationBar(
-            wikiInfo: widget.wikiInfo,
-          ),
-          PageHeader(pagename: widget.pageInfo.pagename),
-          if (pageData != null && pageData!.infobox != null)
-            Infobox(
-              pageData: pageData,
+      body: ScrollOrFit(
+        topContent: const TopNavigationBar(),
+        scrollableContent: Column(
+          children: [
+            PageHeader(pagename: widget.pageInfo.pagename),
+            if (pageData != null && pageData!.infobox != null)
+              Infobox(
+                pageData: pageData,
+                wikiInfo: widget.wikiInfo,
+              ),
+            if (pageData != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 16,
+                ),
+                child: Text(pageData!.description ?? ''),
+              ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: SectionList(
+                sections: sections,
+              ),
+            ),
+          ],
+        ),
+        bottomContent: Column(
+          children: [
+            PageFooter(
+              title: widget.pageInfo.pagename,
+              wikiInfo: widget.wikiInfo,
+              categories: pageData != null ? pageData!.categories : [],
+            ),
+            WikiFooter(
               wikiInfo: widget.wikiInfo,
             ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            sliver: SectionList(
-              sections: sections,
-              setSectionExpandedCallback: _setSectionExpanded,
-            ),
-          ),
-          PageFooter(
-            title: widget.pageInfo.pagename,
-            categories: pageData != null ? pageData!.categories : [],
-            wikiInfo: widget.wikiInfo,
-          ),
-          WikiFooter(wikiInfo: widget.wikiInfo)
-        ],
+          ],
+        ),
       ),
     );
   }
