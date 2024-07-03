@@ -10,19 +10,47 @@ class PageData {
     this.description,
     this.sections = const [],
     this.categories = const [],
+    this.images = const [],
   });
 
   final InfoboxData? infobox;
   final String? description;
   final List<TitleContentPair> sections;
   final List<PageInfo> categories;
+  final List<String> images;
 
-  factory PageData.fromJson(String json) {
-    final Map jsonMap = jsonDecode(json) as Map;
-    final text = jsonMap['parse']['text']['*'] as String;
-    final categories = jsonMap['parse']['categories'] as List<dynamic>;
-    final sections = jsonMap['parse']['sections'] as List<dynamic>;
-    final properties = jsonMap['parse']['properties'] as List<dynamic>;
+  factory PageData.parse({
+    required String pagename,
+    required String htmlResponse,
+    required String wikitextResponse,
+  }) {
+    final Map htmlJson = jsonDecode(htmlResponse) as Map;
+    final Map wikitextJson = jsonDecode(wikitextResponse) as Map;
+
+    final categories = htmlJson['parse']['categories'] as List<dynamic>;
+    final sections = htmlJson['parse']['sections'] as List<dynamic>;
+    final properties = htmlJson['parse']['properties'] as List<dynamic>;
+
+    final pageRevisions = wikitextJson['query']['pages'] as Map<String, dynamic>;
+    final pageId = pageRevisions.keys.first;
+
+    final wikitext = pageRevisions[pageId]['revisions'][0]['slots']['main']['*'] as String;
+
+    String description = wikitext.split(RegExp('\n+')).firstWhere(
+          (element) =>
+              element.isNotEmpty &&
+              !['=', '{', '*', '#', '[', '|', '}'].contains(
+                element[0],
+              ),
+          orElse: () => '',
+        );
+
+    description.replaceAll('{{PAGENAME}}', pagename);
+
+    final htmlText = htmlJson['parse']['text'].toString();
+    final images = RegExp(
+      r'https?:\/\/[^\s]+?\.(?:jpg|jpeg|png|webp)',
+    ).allMatches(htmlText).map((z) => z.group(0)).nonNulls.toList();
 
     InfoboxData? infoboxData;
     if (properties.isNotEmpty) {
@@ -32,7 +60,8 @@ class PageData {
 
     return PageData(
       infobox: infoboxData,
-      description: text.substring(0, 100),
+      description: description,
+      images: images,
       sections: sections
           .map(
             (section) => TitleContentPair(
