@@ -135,14 +135,10 @@ class _CategoryScreen extends State<CategoryScreen> {
   }
 
   List<PageInfo> _getRandomSublist({required List<PageInfo> pages, required int length}) {
-    final List<PageInfo> sublist = [];
-    Random random = Random();
-
-    for (int i = 0; i < min(length, pages.length); i++) {
-      final randomIndex = random.nextInt(pages.length);
-      sublist.add(pages[randomIndex]);
-    }
-    return sublist;
+    pages.shuffle();
+    pages = pages.sublist(0, min(length, pages.length));
+    pages.sort();
+    return pages;
   }
 
   void _setCategoryExpanded({required int index, required bool isExpanded}) {

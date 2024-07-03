@@ -21,7 +21,11 @@ class ScrollOrFit extends StatelessWidget {
           hasScrollBody: false,
           child: Column(
             children: [
-              Expanded(child: scrollableContent),
+              Expanded(
+                  child: OverflowBox(
+                maxHeight: double.infinity,
+                child: scrollableContent,
+              )),
               bottomContent,
             ],
           ),
