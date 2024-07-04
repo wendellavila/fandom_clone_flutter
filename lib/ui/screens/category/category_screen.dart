@@ -44,7 +44,7 @@ class _CategoryScreen extends State<CategoryScreen> {
   void _loadMembers() async {
     List<PageInfo> pages = [];
     try {
-      final url = Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php", {
+      final url = Uri.https(widget.wikiInfo.url, "/api.php", {
         "action": "query",
         "format": "json",
         "origin": "*",

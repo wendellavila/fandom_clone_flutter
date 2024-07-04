@@ -38,7 +38,7 @@ class _WikiHomeScreenState extends State<WikiHomeScreen> {
     List<PageInfo> categories = [];
 
     try {
-      final url = Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php", {
+      final url = Uri.https(widget.wikiInfo.url, "/api.php", {
         "action": "parse",
         "format": "json",
         "page": widget.pageInfo.pagename,
@@ -68,8 +68,14 @@ class _WikiHomeScreenState extends State<WikiHomeScreen> {
     List<PageInfo> pages = [];
 
     try {
-      final url = Uri.https("${widget.wikiInfo.prefix}.fandom.com", "/api.php",
-          {"action": "query", "format": "json", "origin": "*", "list": "random", "rnnamespace": "0", "rnlimit": "6"});
+      final url = Uri.https(widget.wikiInfo.url, "/api.php", {
+        "action": "query",
+        "format": "json",
+        "origin": "*",
+        "list": "random",
+        "rnnamespace": "0",
+        "rnlimit": "6",
+      });
       final response = await http.get(url);
       if (response.statusCode < 400) {
         final jsonMap = jsonDecode(response.body) as Map;
