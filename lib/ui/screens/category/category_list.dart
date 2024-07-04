@@ -13,15 +13,10 @@ class CategoryList extends StatelessWidget {
     super.key,
     required this.subsections,
     required this.wikiInfo,
-    required this.setCategoryExpandedCallback,
   });
 
   final List<CategorySubsection> subsections;
   final WikiInfo wikiInfo;
-  final Function({
-    required int index,
-    required bool isExpanded,
-  }) setCategoryExpandedCallback;
 
   int get pagecount => subsections.fold(0, (value, element) => value + element.pages.length);
 

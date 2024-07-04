@@ -104,7 +104,6 @@ class _CategoryScreen extends State<CategoryScreen> {
         CategorySubsection(
           title: '#',
           wikiInfo: widget.wikiInfo,
-          isExpanded: true,
           pages: pagesStartingWithSymbol,
         ),
       );
@@ -125,7 +124,6 @@ class _CategoryScreen extends State<CategoryScreen> {
         pagesByInitial.add(CategorySubsection(
           title: letter,
           wikiInfo: widget.wikiInfo,
-          isExpanded: true,
           pages: pagesStartingWithLetter,
         ));
       }
@@ -138,12 +136,6 @@ class _CategoryScreen extends State<CategoryScreen> {
     pages = pages.sublist(0, min(length, pages.length));
     pages.sort();
     return pages;
-  }
-
-  void _setCategoryExpanded({required int index, required bool isExpanded}) {
-    setState(() {
-      _pagesByInitial[index].isExpanded = isExpanded;
-    });
   }
 
   @override
@@ -171,7 +163,6 @@ class _CategoryScreen extends State<CategoryScreen> {
             CategoryList(
               subsections: _pagesByInitial,
               wikiInfo: widget.wikiInfo,
-              setCategoryExpandedCallback: _setCategoryExpanded,
             ),
           ],
         ),
