@@ -20,7 +20,12 @@ class SectionList extends StatelessWidget {
                   .map(
                     (section) => ExpansionTile(
                       initiallyExpanded: true,
-                      title: Text(section.title),
+                      title: Text(
+                        section.title,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(18),

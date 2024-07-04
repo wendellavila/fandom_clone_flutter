@@ -39,7 +39,12 @@ class CategoryList extends StatelessWidget {
               children: [
                 for (int panelIndex = 0; panelIndex < subsections.length; panelIndex++)
                   ExpansionTile(
-                    title: Text(subsections[panelIndex].title),
+                    title: Text(
+                      subsections[panelIndex].title,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
                     initiallyExpanded: true,
                     children: subsections[panelIndex]
                         .pages
