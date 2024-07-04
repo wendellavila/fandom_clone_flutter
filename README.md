@@ -1,6 +1,13 @@
 # fandom_clone_flutter
 
-FANDOM Mobile Skin clone made with Flutter 3.19.
+FANDOM Mobile Skin clone made with Flutter 3.22.
+
+## Features
+
+- Connection with the MediaWiki API for retrieving images and content.
+- Browsing any FANDOM wiki by prefix.
+- Support for Main and Category namespaces.
+- Parsing content from wikitext/html output.
 
 ## Screens
 
