@@ -84,7 +84,9 @@ class _ArticleScreen extends State<ArticleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScrollOrFit(
-        topContent: const TopNavigationBar(),
+        topContent: TopNavigationBar(
+          wikiInfo: widget.wikiInfo,
+        ),
         scrollableContent: Column(
           children: [
             PageHeader(pagename: widget.pageInfo.pagename),

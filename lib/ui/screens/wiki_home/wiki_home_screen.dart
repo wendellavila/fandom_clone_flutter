@@ -91,7 +91,9 @@ class _WikiHomeScreenState extends State<WikiHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScrollOrFit(
-        topContent: const TopNavigationBar(),
+        topContent: TopNavigationBar(
+          wikiInfo: widget.wikiInfo,
+        ),
         scrollableContent: Column(
           children: [
             WikiStats(wikiInfo: widget.wikiInfo),
