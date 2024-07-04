@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'dart:math';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -15,8 +15,7 @@ import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
 import 'package:fandom_clone/ui/widgets/topbar.dart';
 import 'package:fandom_clone/ui/widgets/trending_pages.dart';
 import 'package:fandom_clone/ui/widgets/scroll_fit.dart';
-
-import 'page_header.dart';
+import 'package:fandom_clone/ui/widgets/page_header.dart';
 
 class CategoryScreen extends StatefulWidget {
   final PageInfo pageInfo;
@@ -157,8 +156,7 @@ class _CategoryScreen extends State<CategoryScreen> {
         scrollableContent: Column(
           children: [
             PageHeader(
-              context: context,
-              title: widget.pageInfo.pagename,
+              pageInfo: widget.pageInfo,
             ),
             TrendingPages(
               pages: _getRandomSublist(

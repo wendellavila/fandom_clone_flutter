@@ -1,19 +1,18 @@
-import 'package:fandom_clone/model/title_content_pair.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:fandom_clone/ui/screens/article/sections.dart';
-import 'package:fandom_clone/ui/widgets/page_footer.dart';
-import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
-import 'package:fandom_clone/ui/widgets/topbar.dart';
+import 'package:flutter/material.dart';
 
 import 'package:fandom_clone/model/page_data.dart';
 import 'package:fandom_clone/model/page_info.dart';
 import 'package:fandom_clone/model/wiki_info.dart';
-import 'package:fandom_clone/ui/widgets/scroll_fit.dart';
+import 'package:fandom_clone/model/title_content_pair.dart';
 
+import 'package:fandom_clone/ui/widgets/scroll_fit.dart';
+import 'package:fandom_clone/ui/screens/article/sections.dart';
+import 'package:fandom_clone/ui/widgets/page_footer.dart';
+import 'package:fandom_clone/ui/widgets/wiki_footer.dart';
+import 'package:fandom_clone/ui/widgets/topbar.dart';
+import 'package:fandom_clone/ui/widgets/page_header.dart';
 import 'infobox.dart';
-import 'page_header.dart';
 
 class ArticleScreen extends StatefulWidget {
   final PageInfo pageInfo;
@@ -89,7 +88,7 @@ class _ArticleScreen extends State<ArticleScreen> {
         ),
         scrollableContent: Column(
           children: [
-            PageHeader(pagename: widget.pageInfo.pagename),
+            PageHeader(pageInfo: widget.pageInfo),
             if (pageData != null && pageData!.infobox != null)
               Infobox(
                 pageData: pageData,
@@ -99,7 +98,7 @@ class _ArticleScreen extends State<ArticleScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 20,
-                  horizontal: 16,
+                  horizontal: 22,
                 ),
                 child: Text(pageData!.description ?? ''),
               ),
